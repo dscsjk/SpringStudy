@@ -1,9 +1,8 @@
-package com.wind.sp05;
+package com.wind.s06;
 
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.GenericXmlApplicationContext;
 
-import com.wind.sp05.*;
 
 public class MainClass {
 
@@ -11,15 +10,13 @@ public class MainClass {
 		String configLocation = "classpath:applicationCTX.xml";
 		AbstractApplicationContext ctx = new GenericXmlApplicationContext(configLocation);
 		
-		StudentInfo studentInfo = ctx.getBean("studentInfo", StudentInfo.class);
-
-		studentInfo.getStudentInfo();
+		Family family = ctx.getBean("family", Family.class);
+	
+		System.out.println(family.getFatherName());
+		System.out.println(family.getMotherName());
+		System.out.println(family.getBrotherName());
 		
-		Student student2 = ctx.getBean("student2", Student.class);
-		studentInfo.setStudent(student2);
-		studentInfo.getStudentInfo();
 		ctx.close();
-		
 		
 	}
 

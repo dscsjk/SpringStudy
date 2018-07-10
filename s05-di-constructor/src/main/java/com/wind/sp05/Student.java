@@ -6,6 +6,7 @@ public class Student {
 	private String gradeNum;
 	private String classNum;
 	
+	
 	public Student (String name, String age, String gradeNum, String classNum ) {
 		super();
 		this.name = name;
