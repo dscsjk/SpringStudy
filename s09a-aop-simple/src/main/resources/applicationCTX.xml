@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd">
+	<bean id="logAop" class="com.wind.s09.LogAop"/>
+	<aop:config>
+		<aop:aspect id="logger" ref="logAop">
+			<aop:pointcut expression="within(com.wind.s09.*)" id="publicM" />
+			<aop:around method="loggerAop" pointcut-ref="publicM" />
+			<aop:before method="beforeAdvice" pointcut-ref="publicM"/>
+			<aop:after method="afterAdvice" pointcut-ref="publicM"/>
+			<aop:after-throwing method="afterThrowingAdvice" pointcut-ref="publicM"/>
+			<aop:after-returning method="afterReturningAdvice" pointcut-ref="publicM"/>
+		</aop:aspect>
+	</aop:config>
+
+	<bean id="student" class="com.wind.s09.Student">
+		<property name="name" value="코난"></property>
+		<property name="age" value="16"></property>
+		<property name="gradeNum" value="3"></property>
+		<property name="classNum" value="5"></property>
+	</bean>
+	<bean id="worker" class="com.wind.s09.Worker">
+		<property name="name" value="루팡"></property>
+		<property name="age" value="32"></property>
+		<property name="job" value="도둑"></property>
+	</bean>
+</beans>
