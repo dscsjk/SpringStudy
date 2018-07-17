@@ -1,0 +1,34 @@
+package com.wind.web;
+
+import java.text.DateFormat;
+import java.util.Date;
+import java.util.Locale;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+@Controller
+public class StudentController {
+	
+	@RequestMapping("/student_form")
+	public String studentForm() {
+		
+		return "create_page";
+	}
+	
+	@RequestMapping("/create")
+	public String studentCreate( Student student, BindingResult result) {
+		String page = "create_done_page";
+		StudentValidator validator = new StudentValidator();
+		validator.validate(student, result);
+		if(result.hasErrors()) {
+			page="create_page";
+		}
+		return page;
+	}
+}
