@@ -10,14 +10,13 @@
 <body>
 PRDT_LIST.jsp 피자 리스트 화면
 
-<form action='basket' method='post'>
 <table width='600' cellpadding='0' cellspacing='0' border='1'>
 <c:forEach items='${dxm03}' var='dto'>
 <tr>
 <td>${dto.prdt_cd}</td>
 <td>${dto.prdt_nm}</td>
 <td>${dto.prdt_tp}</td>
-<td><a href='content_view?bId=${dto.prdt_cd}'>${dto.prdt_img}</a></td>
+<td><a href='prdt_detail?prdt_cd=${dto.prdt_cd}'>${dto.prdt_img}</a></td>
 <td>
 <c:forEach items='${dto.prdt_sz}' var='pto'>
 ${pto.prdt_sz}: 
@@ -27,7 +26,6 @@ ${pto.price} &nbsp
 </tr>
 </c:forEach>
 </table>
-</form>
 
 </body>
 </html>

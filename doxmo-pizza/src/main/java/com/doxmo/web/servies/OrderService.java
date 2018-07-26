@@ -8,7 +8,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.ui.Model;
 
-import com.doxmo.web.dao.Dxm03Dao;
+import com.doxmo.web.dao.ProductDao;
 import com.doxmo.web.dto.Dxm03;
 import com.doxmo.web.dto.OrderList;
 

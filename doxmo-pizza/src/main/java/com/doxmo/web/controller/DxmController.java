@@ -13,6 +13,7 @@ import com.doxmo.web.servies.BasketViewService;
 import com.doxmo.web.servies.Dxm03Service;
 import com.doxmo.web.servies.DxmService;
 import com.doxmo.web.servies.GetStoreService;
+import com.doxmo.web.servies.PrdtDetailService;
 import com.doxmo.web.servies.RcptTpService;
 
 
@@ -79,7 +80,6 @@ public class DxmController {
 		return "prdt_list";
 	}
 	
-	
 	@RequestMapping("/basket_view")
 	public String basket_view( HttpServletRequest request, Model model) {
 		System.out.println("/basket_view");
@@ -98,6 +98,16 @@ public class DxmController {
 		service.excute(model); 
 		return "prdt_list";
 	}
+	
+	@RequestMapping("/prdt_detail")
+	public String prdet_detail( HttpServletRequest request, Model model) {
+		System.out.println("/prdt_list");
+		model.addAttribute("request", request);
+		service = new PrdtDetailService();
+		service.excute(model); 
+		return "prdt_detail";
+	}
+
 }
 
 
