@@ -14,8 +14,7 @@
 <input type="text" name="prdt_cd" value="${Order.prdt_cd}" >
 <input type="text" name="prdt_img" value="${Order.prdt_img}" >
 <input type="text" name="prdt_nm" value="${Order.prdt_nm}" >
-<input type="text" name="prdt_sz" value="${Order.prdt_sz}" >
-<input type="text" name="price" value="${Order.price}" >
+<input type="text" name="prdt_sz" value="${Order.prdt_sz}:${Order.price}" >
 <input type="text" name="order_cnt" value="${Order.order_cnt}" >
 <input type="text" name="u_id">
 <input type="password" name="pswd">

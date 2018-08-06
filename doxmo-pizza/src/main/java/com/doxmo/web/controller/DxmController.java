@@ -59,7 +59,7 @@ public class DxmController {
 		System.out.println(">> 세션과 주문방법이 존재 ");
 		service = new BasketService();
 		service.excute(model);
-		return "prdt_list";
+		return "redirect:prdt_list";
 	}
 
 	@RequestMapping("/rcpt_tp_list")
@@ -77,7 +77,7 @@ public class DxmController {
 		model.addAttribute("request", request);
 		service = new RcptTpService();
 		service.excute(model); 
-		return "prdt_list";
+		return "redirect:prdt_list";
 	}
 	
 	@RequestMapping("/basket_view")
@@ -101,7 +101,7 @@ public class DxmController {
 	
 	@RequestMapping("/prdt_detail")
 	public String prdet_detail( HttpServletRequest request, Model model) {
-		System.out.println("/prdt_list");
+		System.out.println("/prdt_detail");
 		model.addAttribute("request", request);
 		service = new PrdtDetailService();
 		service.excute(model); 

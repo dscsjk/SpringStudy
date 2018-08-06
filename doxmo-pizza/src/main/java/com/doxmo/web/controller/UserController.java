@@ -50,7 +50,7 @@ public class UserController {
 
 		service2 = new LoginService();
 		if (service2.excute(model)) 
-			return "prdt_list";
+			return "redirect:prdt_list";
 		else
 			return "login2";
 			

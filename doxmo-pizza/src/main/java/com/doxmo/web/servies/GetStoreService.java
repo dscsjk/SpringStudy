@@ -29,8 +29,12 @@ public class GetStoreService implements DxmService  {
 		order.setPrdt_cd(request.getParameter("prdt_cd"));
 		order.setPrdt_img(request.getParameter("prdt_img"));
 		order.setPrdt_nm(request.getParameter("prdt_nm"));
-		order.setPrdt_sz(request.getParameter("prdt_sz"));
-		order.setPrice(Integer.parseInt(request.getParameter("price")));
+		String prdt_sz=request.getParameter("prdt_sz");
+		
+//		order.setPrdt_sz(request.getParameter("prdt_sz"));
+//		order.setPrice(Integer.parseInt(request.getParameter("price")));
+		order.setPrdt_sz(prdt_sz.substring(0, 1));
+		order.setPrice(Integer.parseInt(prdt_sz.substring(2)));
 		order.setOrder_cnt(Integer.parseInt(request.getParameter("order_cnt")));
 		
 		model.addAttribute("Order", order);

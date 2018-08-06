@@ -3,6 +3,7 @@ package com.doxmo.web.dto;
 public class Dxm15 {
 
 	private String prdt_nm ;
+	private String prdt_sz ;
 	private int tt_weight ;
 	private int once_piece ;
 	private int once_weight ;
@@ -18,6 +19,14 @@ public class Dxm15 {
 	public void setPrdt_nm(String prdt_nm) {
 		this.prdt_nm = prdt_nm;
 	}
+
+	public String getPrdt_sz() {
+		return prdt_sz;
+	}
+	public void setPrdt_sz(String prdt_sz) {
+		this.prdt_sz = prdt_sz;
+	}
+	
 	public int getTt_weight() {
 		return tt_weight;
 	}

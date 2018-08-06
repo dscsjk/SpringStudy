@@ -1,6 +1,5 @@
 package com.doxmo.web.dao;
 
-import java.beans.Statement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,10 +19,6 @@ import com.doxmo.web.dto.Dxm15;
 public class ProductDao {
 
 	DataSource dataSource;
-	Connection conn = null;
-	PreparedStatement pstmt = null;
-	ResultSet rs = null;
-
 	public ProductDao() {
 		try {
 			Context context = new InitialContext();
@@ -36,6 +31,9 @@ public class ProductDao {
 	
 	public Dxm03 getPrdtInfo(String prdt_cd) {
 		System.out.println("getPrdtInfo()");
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 
 		Dxm03 dxm03 = null;
 
@@ -76,6 +74,9 @@ public class ProductDao {
 	// 제품리스트를 가져온다.
 	public ArrayList<Dxm03> getPrdtList(String tp) {
 		System.out.println("getPrdtList()");
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 
 		ArrayList<Dxm03> datas = new ArrayList<Dxm03>();
 		Dxm03 dxm03=null;
@@ -86,7 +87,6 @@ public class ProductDao {
 			pstmt = conn.prepareStatement(query);
 			pstmt.setString(1, tp);
 			rs = pstmt.executeQuery();
-			ArrayList<Dxm04> dxm04;
 			while(rs.next()) {
 				dxm03=new Dxm03();
 				dxm03.setPrdt_cd(rs.getString("prdt_cd"));
@@ -116,8 +116,10 @@ public class ProductDao {
 	
 	public Dxm03 getPrdt(String prdt_cd) {
 		System.out.println("getPrdt()");
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 
-		ArrayList<Dxm03> datas = new ArrayList<Dxm03>();
 		Dxm03 dxm03=null;
 
 		try {
@@ -126,8 +128,7 @@ public class ProductDao {
 			pstmt = conn.prepareStatement(query);
 			pstmt.setString(1, prdt_cd);
 			rs = pstmt.executeQuery();
-			ArrayList<Dxm04> dxm04;
-			while(rs.next()) {
+			if (rs.next()) {
 				dxm03=new Dxm03();
 				dxm03.setPrdt_cd(rs.getString("prdt_cd"));
 				dxm03.setPrdt_nm(rs.getString("prdt_nm"));
@@ -137,7 +138,6 @@ public class ProductDao {
 				dxm03.setUpd_dt(rs.getString("upd_dt"));
 				dxm03.setCrt_dt(rs.getString("crt_dt"));
 				dxm03.setPrdt_sz(getPriceList(dxm03.getPrdt_cd()));
-				datas.add(dxm03);
 			}
 			
 		}catch(Exception e) {
@@ -156,6 +156,9 @@ public class ProductDao {
 
 	public ArrayList<Dxm04> getPriceList(String prdt_cd) {
 		System.out.println("getPriceList()->"+prdt_cd);
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 
 		ArrayList<Dxm04> datas = new ArrayList<Dxm04>();
 		Dxm04 dxm04=null;
@@ -196,6 +199,9 @@ public class ProductDao {
 // 제품 상세정보를 가져온다.
 	public Dxm05 getPrdtDetail(String prdt_cd) {
 		System.out.println("getPrdtDetail()->"+prdt_cd);
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 
 		Dxm05 dxm05=null;
 	
@@ -206,14 +212,15 @@ public class ProductDao {
 			pstmt.setString(1, prdt_cd);
 			rs = pstmt.executeQuery();
 			
-			rs.next();
-			dxm05 = new Dxm05();
-			dxm05.setPrdt_cd(rs.getString("prdt_cd"));
-			dxm05.setPrdt_exp(rs.getString("prdt_exp"));
-			dxm05.setPrdt_origin(rs.getString("prdt_origin"));
-			dxm05.setPrdt_toping(rs.getString("prdt_toping"));
-			dxm05.setUpd_dt(rs.getString("upd_dt"));
-			dxm05.setCrt_dt(rs.getString("crt_dt"));
+			if (rs.next()) {
+				dxm05 = new Dxm05();
+				dxm05.setPrdt_cd(rs.getString("prdt_cd"));
+				dxm05.setPrdt_exp(rs.getString("prdt_exp"));
+				dxm05.setPrdt_origin(rs.getString("prdt_origin"));
+				dxm05.setPrdt_toping(rs.getString("prdt_toping"));
+				dxm05.setUpd_dt(rs.getString("upd_dt"));
+				dxm05.setCrt_dt(rs.getString("crt_dt"));
+			}
 			rs.close();
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -232,11 +239,14 @@ public class ProductDao {
 	// 제품영양정보 리스트를 가져온다.
 	public ArrayList<Dxm15> getNutrientList(String prdt_cd) {
 		System.out.println("getNutrientList()->"+prdt_cd);
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		
 		ArrayList<Dxm15> datas = new ArrayList<Dxm15>();
 		try {
 			
-			String query = "select A.prdt_nm, B.tt_weight, B.once_piece, B.once_weight, B.calorie, B.protein, B.fat, B.sodium, B.sugar "
+			String query = "select A.prdt_nm, B.prdt_sz, B.tt_weight, B.once_piece, B.once_weight, B.calorie, B.protein, B.fat, B.sodium, B.sugar "
 			          + "from tbl_dxm03 A, tbl_dxm15 B "
 					  + "where A.Valid = 'T' "
 			          + "and A.prdt_cd = B.prdt_cd "
@@ -250,6 +260,7 @@ public class ProductDao {
 			while(rs.next()) {
 				Dxm15 dxm15 = new Dxm15();
 				dxm15.setPrdt_nm(rs.getString("prdt_nm"));
+				dxm15.setPrdt_sz(rs.getString("prdt_sz"));
 				dxm15.setTt_weight(rs.getInt("tt_weight"));
 				dxm15.setOnce_piece(rs.getInt("once_piece"));
 				dxm15.setOnce_weight(rs.getInt("once_weight"));
@@ -274,6 +285,5 @@ public class ProductDao {
 		}
 		return datas;
 	}
-
 }
 
