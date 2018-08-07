@@ -7,6 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.doxmo.web.servies.BasketAddService;
+import com.doxmo.web.servies.BasketDelService;
 import com.doxmo.web.servies.BasketLoginService;
 import com.doxmo.web.servies.BasketService;
 import com.doxmo.web.servies.BasketViewService;
@@ -61,6 +63,32 @@ public class DxmController {
 		service.excute(model);
 		return "redirect:prdt_list";
 	}
+
+	@RequestMapping("/basket_del")
+	public String basket_del( HttpServletRequest request, Model model) {
+		System.out.println("/basket_del");
+		model.addAttribute("request", request);
+		
+		service = new BasketDelService();
+		service.excute(model);
+
+		service = new BasketViewService();
+		service.excute(model); 
+		return "basket";
+	}	
+
+	@RequestMapping("/basket_add")
+	public String basket_add( HttpServletRequest request, Model model) {
+		System.out.println("/basket_del");
+		model.addAttribute("request", request);
+		
+		service = new BasketAddService();
+		service.excute(model);
+
+		service = new BasketViewService();
+		service.excute(model); 
+		return "basket";
+	}	
 
 	@RequestMapping("/rcpt_tp_list")
 	public String rcpt_tp_list( HttpServletRequest request, Model model) {

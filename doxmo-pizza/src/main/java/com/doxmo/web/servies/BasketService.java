@@ -18,20 +18,32 @@ public class BasketService implements DxmService {
 	@Override
 	public void excute(Model model) {
 		// request parameter 값을 가져온다.
+		System.out.println("BasketService");
 		Map<String,Object> map = model.asMap();
 		HttpServletRequest request = (HttpServletRequest) map.get("request");
 		OrderList order = new OrderList();
 		
 		order.setPrdt_cd(request.getParameter("prdt_cd"));
+		System.out.println(order.getPrdt_cd());
+		
 		order.setPrdt_img(request.getParameter("prdt_img"));
+		System.out.println(order.getPrdt_img());
+
 		order.setPrdt_nm(request.getParameter("prdt_nm"));
+		System.out.println(order.getPrdt_nm());
+
 		String prdt_sz=request.getParameter("prdt_sz");
 		
 //		order.setPrdt_sz(request.getParameter("prdt_sz"));
 //		order.setPrice(Integer.parseInt(request.getParameter("price")));
 		order.setPrdt_sz(prdt_sz.substring(0, 1));
+		System.out.println(order.getPrdt_sz());
+		
 		order.setPrice(Integer.parseInt(prdt_sz.substring(2)));
+		System.out.println(order.getPrice());
+		
 		order.setOrder_cnt(Integer.parseInt(request.getParameter("order_cnt")));
+		System.out.println(order.getOrder_cnt());
 		
 		HttpSession session = request.getSession();
 		ArrayList<OrderList> orderList = new ArrayList<OrderList>();
