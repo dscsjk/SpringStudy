@@ -6,10 +6,16 @@
 
 
 <script type="text/javascript">
-	function goOrderCnt(){
-		allert("test");
-		document.basketChangeForm.action="basket_add";
-		document.basketChangeForm.submit();
+	function goOrderCnt(sel){
+		f=sel.form;
+		f.action="basket_add";
+		f.submit();
+	}
+	
+	function goBasketDel(sel){
+		f=sel.form;
+		f.action="basket_del";
+		f.submit();
 	}
 </script>
 
@@ -47,6 +53,7 @@
 <td>판매가격</td>
 <td>수량</td>
 </tr>
+<c:set var="index" value="0" />
 <c:forEach items="${OrderList}" var="dto">
 <tr>
 <td>${dto.prdt_cd}</td>
@@ -55,26 +62,28 @@
 <td>${dto.prdt_sz}</td>
 <td>${dto.price}</td>
 <td>
-<form name="basketChangeForm" action="basket_del" method="post">
+<form name="basketChangeForm${index}" method="post">
 <input type="text" name="prdt_cd" value="${dto.prdt_cd}">
 <input type="text" name="prdt_sz" value="${dto.prdt_sz}">
-<select name="order_cnt" onchange="goOrderCnt()">
+<select name="order_cnt" onchange="goOrderCnt(this)">
 	<option value="1" <c:if test="${dto.order_cnt eq 1 }">selected="selected"</c:if> >1 </option>
 	<option value="2" <c:if test="${dto.order_cnt eq 2 }">selected="selected"</c:if> >2 </option>
 	<option value="3" <c:if test="${dto.order_cnt eq 3 }">selected="selected"</c:if> >3 </option>
 	<option value="4" <c:if test="${dto.order_cnt eq 4 }">selected="selected"</c:if> >4 </option>
 	<option value="5" <c:if test="${dto.order_cnt eq 5 }">selected="selected"</c:if> >5 </option>
 </select>
-<input type="submit" value="삭제">
+<input type="button" value="삭제" onClick="goBasketDel(this)">
 </form>
+
 </td>
 </tr>
+<c:set var="index" value="${index+1}"/>
 </c:forEach>
 </table>
 
-<form action="prdt_list" method="post"><input type="submit" value="제품추가"></form>
+<form name="PrdtListForm" action="prdt_list" method="post"><input type="submit" value="제품추가"></form>
 
-<form action="order" method="post"><input type="submit" value="제품주문"></form>
+<form name="OrderForm" action="order_view" method="post"><input type="submit" value="제품주문"></form>
 
 </body>
 

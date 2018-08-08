@@ -15,6 +15,8 @@ import com.doxmo.web.servies.BasketViewService;
 import com.doxmo.web.servies.Dxm03Service;
 import com.doxmo.web.servies.DxmService;
 import com.doxmo.web.servies.GetStoreService;
+import com.doxmo.web.servies.OrderService;
+import com.doxmo.web.servies.OrderViewService;
 import com.doxmo.web.servies.PrdtDetailService;
 import com.doxmo.web.servies.RcptTpService;
 
@@ -22,6 +24,12 @@ import com.doxmo.web.servies.RcptTpService;
 @Controller
 public class DxmController {
 	DxmService service = null;
+	@RequestMapping("/test")
+	public String test(Model model) {
+		System.out.println("test");
+
+		return "test";
+	}
 
 	@RequestMapping("/dxm03")
 	public String list(Model model) {
@@ -72,9 +80,7 @@ public class DxmController {
 		service = new BasketDelService();
 		service.excute(model);
 
-		service = new BasketViewService();
-		service.excute(model); 
-		return "basket";
+		return "redirect:basket_view";
 	}	
 
 	@RequestMapping("/basket_add")
@@ -85,9 +91,7 @@ public class DxmController {
 		service = new BasketAddService();
 		service.excute(model);
 
-		service = new BasketViewService();
-		service.excute(model); 
-		return "basket";
+		return "redirect:basket_view";
 	}	
 
 	@RequestMapping("/rcpt_tp_list")
@@ -118,6 +122,27 @@ public class DxmController {
 		return "basket";
 	}
 
+	@RequestMapping("/order_view")
+	public String order_view( HttpServletRequest request, Model model) {
+		System.out.println("/basket_view");
+		model.addAttribute("request", request);
+
+		service = new OrderViewService();
+		service.excute(model); 
+		return "order";
+	}
+
+	
+	@RequestMapping("/order")
+	public String order( HttpServletRequest request, Model model) {
+		System.out.println("/order");
+		model.addAttribute("request", request);
+
+		service = new OrderService();
+		service.excute(model); 
+		return "order_end";
+	}
+	
 	@RequestMapping("/prdt_list")
 	public String prdet_list( HttpServletRequest request, Model model) {
 		System.out.println("/prdt_list");

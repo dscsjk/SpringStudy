@@ -26,56 +26,6 @@ public class StoreDao {
 			e.printStackTrace();
 		}
 	}
-/*	
-	public ArrayList<Dxm06> getStoreList() {
-		System.out.println("getStoreList()");
-
-		ArrayList<Dxm06> dtos = new ArrayList<Dxm06>();
-		Dxm06 dxm06;
-
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-
-		try {
-			conn = dataSource.getConnection();
-			String query = "select * from tbl_dxm06 where valid = 'T' ";
-
-			pstmt = conn.prepareStatement(query);
-
-			rs = pstmt.executeQuery();
-			
-			
-			while(rs.next()) {
-				
-				dxm06 = new Dxm06();
-				dxm06.setStore_cd(rs.getString("Store_cd"));
-				dxm06.setStore_nm(rs.getString("Store_nm"));
-				dxm06.setStore_tel(rs.getString("Store_tel"));
-				dxm06.setStore_zip(rs.getString("Store_zip"));
-				dxm06.setStore_addr(rs.getString("Store_addr"));
-				dxm06.setVaild(rs.getString("valid"));
-				dxm06.setUpd_dt(rs.getString("upd_dt"));
-				dxm06.setCrt_dt(rs.getString("crt_dt"));
-				System.out.println(dxm06.toString());
-				dtos.add(dxm06);
-			}
-		}catch(Exception e) {
-			e.printStackTrace();
-		}finally {
-			try {
-				if(rs != null) rs.close();
-				if(pstmt != null) pstmt.close();
-				if(conn != null) conn.close();
-			} catch (Exception e2) {
-				// TODO: handle exception
-			}
-		}
-		return dtos;
-	}
-
-	*/
-	
 	public ArrayList<Dxm06> getStoreList() {
 		System.out.println("getStoreList()");
 		ArrayList<Dxm06> dtos = new ArrayList<Dxm06>();
@@ -119,10 +69,6 @@ public class StoreDao {
 		
 		return dtos;
 	}
-	
-	
-	
-	
 	
 	// 제품리스트를 가져온다.
 	public ArrayList<Dxm03> getPrdtList(String tp) {
