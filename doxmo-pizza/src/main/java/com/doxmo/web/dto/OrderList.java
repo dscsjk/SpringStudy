@@ -1,47 +1,63 @@
 package com.doxmo.web.dto;
 
 public class OrderList {
-	private String prdt_cd; 
-	private String prdt_img; 
-	private String prdt_nm; 
-	private String prdt_sz; 
-	private int price; 
-	private int order_cnt;
 	
-	public String getPrdt_cd() {
-		return prdt_cd;
+	private String crt_dt ;
+	private String rcpt_tp ;
+	private String order_no ;
+	private String order_prdt ;
+	private String tt_pay ;
+	private String store_nm	;
+	private String store_tel	;
+	private String order_st	;
+	
+	public String getOrder_prdt() {
+		return order_prdt;
 	}
-	public void setPrdt_cd(String prdt_cd) {
-		this.prdt_cd = prdt_cd;
+	public void setOrder_prdt(String order_prdt) {
+		this.order_prdt = order_prdt;
 	}
-	public String getPrdt_img() {
-		return prdt_img;
+	public String getStore_nm() {
+		return store_nm;
 	}
-	public void setPrdt_img(String prdt_img) {
-		this.prdt_img = prdt_img;
+	public void setStore_nm(String store_nm) {
+		this.store_nm = store_nm;
 	}
-	public String getPrdt_nm() {
-		return prdt_nm;
+	public String getStore_tel() {
+		return store_tel;
 	}
-	public void setPrdt_nm(String prdt_nm) {
-		this.prdt_nm = prdt_nm;
+	public void setStore_tel(String store_tel) {
+		this.store_tel = store_tel;
 	}
-	public String getPrdt_sz() {
-		return prdt_sz;
+	public String getOrder_no() {
+		return order_no;
 	}
-	public void setPrdt_sz(String prdt_sz) {
-		this.prdt_sz = prdt_sz;
+	public void setOrder_no(String order_no) {
+		this.order_no = order_no;
 	}
-	public int getPrice() {
-		return price;
+	public String getTt_pay() {
+		return tt_pay;
 	}
-	public void setPrice(int price) {
-		this.price = price;
+	public void setTt_pay(String tt_pay) {
+		this.tt_pay = tt_pay;
 	}
-	public int getOrder_cnt() {
-		return order_cnt;
+	public String getRcpt_tp() {
+		return rcpt_tp;
 	}
-	public void setOrder_cnt(int order_cnt) {
-		this.order_cnt = order_cnt;
-	} 
+	public void setRcpt_tp(String rcpt_tp) {
+		this.rcpt_tp = rcpt_tp;
+	}
+	public String getOrder_st() {
+		return order_st;
+	}
+	public void setOrder_st(String order_st) {
+		this.order_st = order_st;
+	}
+	public String getCrt_dt() {
+		return crt_dt;
+	}
+	public void setCrt_dt(String crt_dt) {
+		this.crt_dt = crt_dt;
+	}
+
 }

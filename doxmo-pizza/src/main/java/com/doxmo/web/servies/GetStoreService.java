@@ -12,7 +12,7 @@ import com.doxmo.web.dao.LoginDao;
 import com.doxmo.web.dao.StoreDao;
 import com.doxmo.web.dto.Dxm01;
 import com.doxmo.web.dto.Dxm06;
-import com.doxmo.web.dto.OrderList;
+import com.doxmo.web.dto.OrderPrdt;
 import com.doxmo.web.dto.User;
 
 public class GetStoreService implements DxmService  {
@@ -23,14 +23,14 @@ public class GetStoreService implements DxmService  {
 		// request parameter 값을 가져온다.
 		Map<String,Object> map = model.asMap();
 		HttpServletRequest request = (HttpServletRequest) map.get("request");
-		OrderList order = new OrderList();
+		OrderPrdt order = new OrderPrdt();
 		
 		// 로그인전의 주문상품을 넘긴다.
 		order.setPrdt_cd(request.getParameter("prdt_cd"));
 		order.setPrdt_img(request.getParameter("prdt_img"));
 		order.setPrdt_nm(request.getParameter("prdt_nm"));
 		String prdt_sz=request.getParameter("prdt_sz");
-		
+		System.out.println(prdt_sz);
 //		order.setPrdt_sz(request.getParameter("prdt_sz"));
 //		order.setPrice(Integer.parseInt(request.getParameter("price")));
 		order.setPrdt_sz(prdt_sz.substring(0, 1));

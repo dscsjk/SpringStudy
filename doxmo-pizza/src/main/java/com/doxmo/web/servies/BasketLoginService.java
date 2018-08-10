@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.ui.Model;
 
-import com.doxmo.web.dto.OrderList;
+import com.doxmo.web.dto.OrderPrdt;
 
 public class BasketLoginService implements DxmService  {
 
@@ -16,7 +16,7 @@ public class BasketLoginService implements DxmService  {
 		// request parameter 값을 가져온다.
 		Map<String,Object> map = model.asMap();
 		HttpServletRequest request = (HttpServletRequest) map.get("request");
-		OrderList order = new OrderList();
+		OrderPrdt order = new OrderPrdt();
 		
 		// 로그인전의 주문상품을 넘긴다.
 		order.setPrdt_cd(request.getParameter("prdt_cd"));

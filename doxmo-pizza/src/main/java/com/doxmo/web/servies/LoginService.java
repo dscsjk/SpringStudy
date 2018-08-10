@@ -19,7 +19,6 @@ public class LoginService implements DxmService2  {
 		Map<String,Object> map = model.asMap();
 		HttpServletRequest request = (HttpServletRequest) map.get("request");
 		
-		
 		String u_id = request.getParameter("u_id");
 		String pswd = request.getParameter("pswd");
 		System.out.println("uid:"+u_id+" pswd:"+pswd);

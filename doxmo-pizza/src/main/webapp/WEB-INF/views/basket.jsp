@@ -43,7 +43,8 @@
 <td>${RcptTp.rcpt_tel}</td>
 </tr>
 </table>
-
+<c:if test="${dto.order_cnt == 'null' }">장바구니가 비어 있습니다.</c:if>
+<c:if test="${dto.order_cnt != 'null' }">
 <table width="600" cellpadding="0" cellspacing="0" border="1">
 <tr>
 <td>제품코드</td>
@@ -80,6 +81,7 @@
 <c:set var="index" value="${index+1}"/>
 </c:forEach>
 </table>
+</c:if>
 
 <form name="PrdtListForm" action="prdt_list" method="post"><input type="submit" value="제품추가"></form>
 

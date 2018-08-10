@@ -12,7 +12,7 @@ import com.doxmo.web.dao.LoginDao;
 import com.doxmo.web.dao.StoreDao;
 import com.doxmo.web.dto.Dxm01;
 import com.doxmo.web.dto.Dxm06;
-import com.doxmo.web.dto.OrderList;
+import com.doxmo.web.dto.OrderPrdt;
 import com.doxmo.web.dto.RcptTp;
 import com.doxmo.web.dto.User;
 
@@ -24,7 +24,7 @@ public class BasketViewService implements DxmService  {
 		// request parameter 값을 가져온다.
 		Map<String,Object> map = model.asMap();
 		HttpServletRequest request = (HttpServletRequest) map.get("request");
-		OrderList order = new OrderList();
+		OrderPrdt order = new OrderPrdt();
 		
 		
 		HttpSession session = request.getSession();
@@ -36,7 +36,7 @@ public class BasketViewService implements DxmService  {
 		if (user != null)
 			model.addAttribute("User", user);
 
-		ArrayList<OrderList> orderList = (ArrayList<OrderList>) session.getAttribute("OrderList");
+		ArrayList<OrderPrdt> orderList = (ArrayList<OrderPrdt>) session.getAttribute("OrderList");
 		if (orderList != null)
 			model.addAttribute("OrderList", orderList);
 	}

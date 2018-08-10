@@ -38,7 +38,14 @@ public class ProductDao {
 		Dxm03 dxm03 = null;
 
 		try {
-			String query = "select * from tbl_dxm03 where prdt_cd = ?";
+			String query = "select to_char(a.crt_dt,'YYYY.MM.DD')," + 
+					"decode(a.order_st,'01','방문포장','배달'), " + 
+					"a.order_no, " + 
+					"b.store_nm, " + 
+					"b.store_tel, " + 
+					"decode(a.order_st,'01','결제완료','02','상품준비중','03','상품준비완료','04','배달','')  " + 
+					"from tbl_dxm07 a, tbl_dxm06 " + 
+					"where a.u_id=? and a.store_cd = b.store_cd  ";
 			conn = dataSource.getConnection();
 			pstmt = conn.prepareStatement(query);
 			pstmt.setString(1, prdt_cd);

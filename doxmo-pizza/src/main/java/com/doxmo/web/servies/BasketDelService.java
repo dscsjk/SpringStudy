@@ -5,7 +5,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.springframework.ui.Model;
-import com.doxmo.web.dto.OrderList;
+import com.doxmo.web.dto.OrderPrdt;
 
 public class BasketDelService implements DxmService {
 
@@ -17,10 +17,10 @@ public class BasketDelService implements DxmService {
 		HttpServletRequest request = (HttpServletRequest) map.get("request");
 		
 		HttpSession session = request.getSession();
-		ArrayList<OrderList> orderList = new ArrayList<OrderList>();
+		ArrayList<OrderPrdt> orderList = new ArrayList<OrderPrdt>();
 		
 		// 동일제품코드와 사이즈가 있으면 주문갯수만 더해서 리스트를 업데이트한다.
-		for (OrderList isOrder : (ArrayList<OrderList>) session.getAttribute("OrderList")) {
+		for (OrderPrdt isOrder : (ArrayList<OrderPrdt>) session.getAttribute("OrderList")) {
 			if (isOrder.getPrdt_cd().equals(request.getParameter("prdt_cd"))
 			 && isOrder.getPrdt_sz().equals(request.getParameter("prdt_sz"))) {
 				System.out.println("삭제건 존재");

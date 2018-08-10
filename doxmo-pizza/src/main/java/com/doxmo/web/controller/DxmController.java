@@ -15,6 +15,7 @@ import com.doxmo.web.servies.BasketViewService;
 import com.doxmo.web.servies.Dxm03Service;
 import com.doxmo.web.servies.DxmService;
 import com.doxmo.web.servies.GetStoreService;
+import com.doxmo.web.servies.OrderListService;
 import com.doxmo.web.servies.OrderService;
 import com.doxmo.web.servies.OrderViewService;
 import com.doxmo.web.servies.PrdtDetailService;
@@ -159,6 +160,15 @@ public class DxmController {
 		service = new PrdtDetailService();
 		service.excute(model); 
 		return "prdt_detail";
+	}
+
+	@RequestMapping("/order_list")
+	public String order_list( HttpServletRequest request, Model model) {
+		System.out.println("/order_list");
+		model.addAttribute("request", request);
+		service = new OrderListService();
+		service.excute(model); 
+		return "order_list";
 	}
 
 }

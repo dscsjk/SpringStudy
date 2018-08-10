@@ -12,7 +12,7 @@ import com.doxmo.web.dao.LoginDao;
 import com.doxmo.web.dao.StoreDao;
 import com.doxmo.web.dto.Dxm01;
 import com.doxmo.web.dto.Dxm06;
-import com.doxmo.web.dto.OrderList;
+import com.doxmo.web.dto.OrderPrdt;
 import com.doxmo.web.dto.RcptTp;
 import com.doxmo.web.dto.User;
 
@@ -24,7 +24,7 @@ public class RcptTpService implements DxmService  {
 		// request parameter 값을 가져온다.
 		Map<String,Object> map = model.asMap();
 		HttpServletRequest request = (HttpServletRequest) map.get("request");
-		OrderList order = new OrderList();
+		OrderPrdt order = new OrderPrdt();
 		RcptTp rcptTp = new RcptTp();
 		
 		rcptTp.setRcpt_tp(request.getParameter("rcpt_tp"));
@@ -43,15 +43,15 @@ public class RcptTpService implements DxmService  {
 		HttpSession session = request.getSession();
 		session.setAttribute("RcptTp", rcptTp);
 		
-		ArrayList<OrderList> orderList = (ArrayList<OrderList>) session.getAttribute("OrderList");
+		ArrayList<OrderPrdt> orderList = (ArrayList<OrderPrdt>) session.getAttribute("OrderList");
 		
 		if (orderList==null) {
-			orderList = new ArrayList<OrderList>(); 
+			orderList = new ArrayList<OrderPrdt>(); 
 			orderList.add(order);
 		} else {
 			int i=0;
 			// 동일제품코드와 사이즈가 있으면 주문갯수만 더해서 리스트를 업데이트한다.
-			for (OrderList isOrder : orderList) {
+			for (OrderPrdt isOrder : orderList) {
 				if (isOrder.getPrdt_cd().equals(order.getPrdt_cd())
 				 && isOrder.getPrdt_sz().equals(order.getPrdt_sz())) {
 					int cnt = isOrder.getOrder_cnt()+order.getOrder_cnt();

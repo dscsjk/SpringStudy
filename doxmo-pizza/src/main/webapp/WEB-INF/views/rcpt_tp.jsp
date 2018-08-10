@@ -25,7 +25,7 @@
 <input type="hidden" name="rcpt_cd" value="${dto.store_cd}" >
 <input type="hidden" name="rcpt_nm" value="${dto.store_nm}" >
 <input type="hidden" name="rcpt_tel" value="${dto.store_tel}" >
-<input type="submit" value="확인">
+<input type="submit" value="선택">
 </form>
 </td>
 <td><a href="?

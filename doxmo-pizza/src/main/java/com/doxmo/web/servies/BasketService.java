@@ -11,7 +11,7 @@ import org.springframework.ui.Model;
 
 import com.doxmo.web.dao.ProductDao;
 import com.doxmo.web.dto.Dxm03;
-import com.doxmo.web.dto.OrderList;
+import com.doxmo.web.dto.OrderPrdt;
 
 public class BasketService implements DxmService {
 
@@ -21,7 +21,7 @@ public class BasketService implements DxmService {
 		System.out.println("BasketService");
 		Map<String,Object> map = model.asMap();
 		HttpServletRequest request = (HttpServletRequest) map.get("request");
-		OrderList order = new OrderList();
+		OrderPrdt order = new OrderPrdt();
 		
 		order.setPrdt_cd(request.getParameter("prdt_cd"));
 		System.out.println(order.getPrdt_cd());
@@ -46,15 +46,15 @@ public class BasketService implements DxmService {
 		System.out.println(order.getOrder_cnt());
 		
 		HttpSession session = request.getSession();
-		ArrayList<OrderList> orderList = new ArrayList<OrderList>();
-		ArrayList<OrderList> sessionOrderList = (ArrayList<OrderList>) session.getAttribute("OrderList");
+		ArrayList<OrderPrdt> orderList = new ArrayList<OrderPrdt>();
+		ArrayList<OrderPrdt> sessionOrderList = (ArrayList<OrderPrdt>) session.getAttribute("OrderList");
 		
 		if (sessionOrderList==null) {
 			orderList.add(order);
 		} else {
 			int dupCnt=0;
 			// 동일제품코드와 사이즈가 있으면 주문갯수만 더해서 리스트를 업데이트한다.
-			for (OrderList isOrder : sessionOrderList) {
+			for (OrderPrdt isOrder : sessionOrderList) {
 				if (isOrder.getPrdt_cd().equals(order.getPrdt_cd())
 				 && isOrder.getPrdt_sz().equals(order.getPrdt_sz())) {
 

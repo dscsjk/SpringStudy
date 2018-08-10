@@ -59,15 +59,15 @@
 <table width="600" cellpadding="0" cellspacing="0" border="1">
 <tr>
 <td>이름 </td>
-<td><input type="text" value="${User.u_name}"></td>
+<td><input type="text" name="rcpt_nm" value="${User.u_name}"></td>
 </tr>
 <tr>
 <td>전화번호 </td>
-<td><input type="text" value="${User.u_tel}"></td>
+<td><input type="text" name="rcpt_tel" value="${User.u_tel}"></td>
 </tr>
 <tr>
 <td>기타 요청사항 </td>
-<td><textarea cols="30" rows="4"></textarea></td>
+<td><textarea name="memo" cols="30" rows="4"></textarea></td>
 </tr>
 </table>
 # 제품 수령을 위하여 연락처를 꼭 확인 해주세요.
@@ -76,6 +76,7 @@
 <tr>
 <td><input type="radio" name="pay_tp" value="0" checked="checked" /> 신용카드
 	<input type="radio" name="pay_tp" value="1" /> 현금
+	<input type="hidden" name="tt_pay" value="${totPrice}" />
 </td>
 </tr>
 </table>
