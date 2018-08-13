@@ -44,16 +44,28 @@ public class OrderDao {
 		OrderList orderList=null;
 
 		try {
-			String query = "select to_char(a.crt_dt,'YYYY.MM.DD')," + 
-					"decode(a.order_st,'01','방문포장','배달'), " + 
-					"a.order_no, " + 
-					"to_char(a.tt_pay,'999,999,999'), " +
-					"b.store_nm, " + 
-					"b.store_tel, " + 
-					"decode(a.order_st,'01','결제완료','02','상품준비중','03','상품준비완료','04','배달','')  " + 
-					"from tbl_dxm07 a, tbl_dxm06 b " + 
-					"where a.u_id=? and a.store_cd = b.store_cd  ";
+//			String query = "select to_char(a.crt_dt,'YYYY.MM.DD') crd_dt, " 
+//			+ "decode(a.order_st,'01','방문포장','배달') order_st, " 
+//			+ "a.order_no order_no, " 
+//			+ "e.prdt_nm || decode(c.prdt_cnt,1,'',' 외 '|| to_char(c.prdt_cnt-1) ||'건') prdt_desc, "
+//			+ "to_char(a.tt_pay,'999,999,999') tt_pay, "
+//			+ "b.store_nm store_nm, "
+//			+ "b.store_tel store_tel, " 
+//			+ "decode(a.order_st,'01','결제완료','02','상품준비중','03','상품준비완료','04','배달','') order_st " 
+//			+ "from tbl_dxm07 a, tbl_dxm06 b, " 
+//			+ "(select order_no, min(rowid) rid, count(*) prdt_cnt from tbl_dxm08 group by order_no) c, " 
+//			+ "tbl_dxm08 d, tbl_dxm03 e "
+//			+ "where a.u_id= ? "
+//			+ "and a.store_cd = b.store_cd "
+//			+ "and a.order_no = c.order_no "
+//			+ "and c.rid = d.rowid "
+//			+ "and d.prdt_cd = e.prdt_cd ";
 			
+			String query = "select crd_dt, rcpt_st, order_no,  prdt_desc,  tt_pay, store_nm, store_tel, order_st " 
+			+ "from v_order_list " 
+			+ "where u_id= ? " 
+			+ "order by order_no desc ";
+		
 			conn = dataSource.getConnection();
 			pstmt = conn.prepareStatement(query);
 			pstmt.setString(1, u_id);
@@ -63,10 +75,11 @@ public class OrderDao {
 				orderList.setCrt_dt(rs.getString(1));
 				orderList.setRcpt_tp(rs.getString(2));
 				orderList.setOrder_no(rs.getString(3));
-				orderList.setTt_pay(rs.getString(4));
-				orderList.setStore_nm(rs.getString(5));
-				orderList.setStore_tel(rs.getString(6));
-				orderList.setOrder_st(rs.getString(7));
+				orderList.setOrder_prdt(rs.getString(4));
+				orderList.setTt_pay(rs.getString(5));
+				orderList.setStore_nm(rs.getString(6));
+				orderList.setStore_tel(rs.getString(7));
+				orderList.setOrder_st(rs.getString(8));
 				
 				datas.add(orderList);
 			}
