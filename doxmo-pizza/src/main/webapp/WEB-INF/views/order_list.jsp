@@ -24,10 +24,10 @@
 					<div class="util_left">
 						<a href="javascript:;" class="btn_ico btn_menu">GNB</a>
 						<ul class="util_menu">
-							<li><a href="/mypage/myOrderList">주문조회 <span id="gnbOrderCnt"></span></a></li>
+							<li><a href="order_list">주문조회 <span id="gnbOrderCnt"></span></a></li>
 						</ul>
 					</div>
-					<h1 class="logo"><a href="/main"><img src="https://cdn.dominos.co.kr/renewal2016/ko/w/images/logo.png" alt="Domino"></a></h1>
+					<h1 class="logo"><a href="/web/prdt_list"><img src="https://cdn.dominos.co.kr/renewal2016/ko/w/images/logo.png" alt="Domino"></a></h1>
 					<div class="util_right">
 						<ul class="util_menu">
 						<li><a href="/global/login">로그인</a></li>
@@ -84,7 +84,7 @@
 								<td><span class="ico ico_tag">${dto.rcpt_tp}</span></td>
 								<td><p class="order_num"><a href="javascript:goView('${dto.order_no}');">${dto.order_no}</a></p></td>
 								<td><p>${dto.order_prdt}</p></td>
-								<td>${dto.order_prdt}원</td>
+								<td>${dto.tt_pay}원</td>
 								<td>${dto.store_nm}<br>${dto.store_tel}</td>
 								<td>${dto.order_st}</td>
 							</tr>
