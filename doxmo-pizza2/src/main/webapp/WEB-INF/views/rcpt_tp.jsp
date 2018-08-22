@@ -28,7 +28,7 @@
 <input type="submit" value="선택">
 </form>
 </td>
-<td><a href="?
+<td><a href="rcpt_tp_choice?
 prdt_cd=${Order.prdt_cd}
 &prdt_img=${Order.prdt_img}
 &prdt_nm=${Order.prdt_nm}

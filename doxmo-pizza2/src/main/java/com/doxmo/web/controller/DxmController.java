@@ -145,7 +145,7 @@ public class DxmController {
 	}
 	
 	@RequestMapping("/prdt_list")
-	public String prdet_list( HttpServletRequest request, Model model) {
+	public String prdt_list( HttpServletRequest request, Model model) {
 		System.out.println("/prdt_list");
 		model.addAttribute("request", request);
 		service = new Dxm03Service();
@@ -154,7 +154,7 @@ public class DxmController {
 	}
 	
 	@RequestMapping("/prdt_detail")
-	public String prdet_detail( HttpServletRequest request, Model model) {
+	public String prdt_detail( HttpServletRequest request, Model model) {
 		System.out.println("/prdt_detail");
 		model.addAttribute("request", request);
 		service = new PrdtDetailService();

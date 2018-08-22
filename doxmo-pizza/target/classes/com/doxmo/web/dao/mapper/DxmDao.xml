@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.doxmo.web.dao.DxmDao">
+
+	<select id="PrdtListDao" resultType="com.doxmo.web.dto.Dxm03">
+		SELECT PRDT_CD, PRDT_NM, PRDT_TP, PRDT_IMG, VALID, UPD_DT, CRT_DT, F_GETPRICE(PRDT_CD) PRDT_SZ  
+		FROM   TBL_DXM03 
+		WHERE  VALID = 'T' and PRDT_TP = #{param1} 
+	</select>
+
+</mapper>
