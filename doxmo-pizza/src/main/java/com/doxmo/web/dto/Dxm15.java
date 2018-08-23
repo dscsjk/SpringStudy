@@ -4,14 +4,14 @@ public class Dxm15 {
 
 	private String prdt_nm ;
 	private String prdt_sz ;
-	private int tt_weight ;
-	private int once_piece ;
-	private int once_weight ;
-	private int calorie	; 
-	private int protein	; 
-	private int fat	; 
-	private int sodium ;
-	private int sugar ;
+	private String tt_weight ;
+	private String once_piece ;
+	private String once_weight ;
+	private String calorie	; 
+	private String protein	; 
+	private String fat	; 
+	private String sodium ;
+	private String sugar ;
 	
 	public String getPrdt_nm() {
 		return prdt_nm;
@@ -27,52 +27,52 @@ public class Dxm15 {
 		this.prdt_sz = prdt_sz;
 	}
 	
-	public int getTt_weight() {
+	public String getTt_weight() {
 		return tt_weight;
 	}
-	public void setTt_weight(int tt_weight) {
+	public void setTt_weight(String tt_weight) {
 		this.tt_weight = tt_weight;
 	}
-	public int getOnce_piece() {
+	public String getOnce_piece() {
 		return once_piece;
 	}
-	public void setOnce_piece(int once_piece) {
+	public void setOnce_piece(String once_piece) {
 		this.once_piece = once_piece;
 	}
-	public int getOnce_weight() {
+	public String getOnce_weight() {
 		return once_weight;
 	}
-	public void setOnce_weight(int once_weight) {
+	public void setOnce_weight(String once_weight) {
 		this.once_weight = once_weight;
 	}
-	public int getCalorie() {
+	public String getCalorie() {
 		return calorie;
 	}
-	public void setCalorie(int calorie) {
+	public void setCalorie(String calorie) {
 		this.calorie = calorie;
 	}
-	public int getProtein() {
+	public String getProtein() {
 		return protein;
 	}
-	public void setProtein(int protein) {
+	public void setProtein(String protein) {
 		this.protein = protein;
 	}
-	public int getFat() {
+	public String getFat() {
 		return fat;
 	}
-	public void setFat(int fat) {
+	public void setFat(String fat) {
 		this.fat = fat;
 	}
-	public int getSodium() {
+	public String getSodium() {
 		return sodium;
 	}
-	public void setSodium(int sodium) {
+	public void setSodium(String sodium) {
 		this.sodium = sodium;
 	}
-	public int getSugar() {
+	public String getSugar() {
 		return sugar;
 	}
-	public void setSugar(int sugar) {
+	public void setSugar(String sugar) {
 		this.sugar = sugar;
 	}
 }

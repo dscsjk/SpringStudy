@@ -9,7 +9,7 @@
 							<li><a href="order_list">주문조회 <span id="gnbOrderCnt"></span></a></li>
 						</ul>
 					</div>
-					<h1 class="logo"><a href="/"><img src="https://cdn.dominos.co.kr/renewal2016/ko/w/images/logo.png" alt="Domino"></a></h1>
+					<h1 class="logo"><a href=""><img src="resources/img/logo.png" alt="Domino"></a></h1>
 					<div class="util_right">
 						<ul class="util_menu">
 						<li><a href="/global/login">로그아웃</a></li>

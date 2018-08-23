@@ -5,10 +5,70 @@
 
 <mapper namespace="com.doxmo.web.dao.DxmDao">
 
-	<select id="PrdtListDao" resultType="com.doxmo.web.dto.Dxm03">
+	<select id="getPrdtListDao" resultType="com.doxmo.web.dto.Dxm03">
 		SELECT PRDT_CD, PRDT_NM, PRDT_TP, PRDT_IMG, VALID, UPD_DT, CRT_DT, F_GETPRICE(PRDT_CD) PRDT_SZ  
 		FROM   TBL_DXM03 
 		WHERE  VALID = 'T' and PRDT_TP = #{param1} 
 	</select>
 
+	<select id="getPrdtDao" resultType="com.doxmo.web.dto.Dxm03">
+		SELECT PRDT_CD, PRDT_NM, PRDT_TP, PRDT_IMG, VALID, UPD_DT, CRT_DT, F_GETPRICE(PRDT_CD) PRDT_SZ  
+		FROM   TBL_DXM03 
+		WHERE  PRDT_CD = #{param1} 
+	</select>
+
+	<select id="getPrdtPriceDao" resultType="com.doxmo.web.dto.Dxm04">
+		SELECT price_num, prdt_cd, prdt_sz, price, to_char(price,'999,999,999') price_n, valid, crt_dt 
+		FROM   TBL_DXM04 
+		WHERE  PRDT_CD = #{param1} 
+	</select>
+
+	<select id="getPrdtDetailDao" resultType="com.doxmo.web.dto.Dxm05">
+		SELECT *  
+		FROM   TBL_DXM05 
+		WHERE  PRDT_CD = #{param1} 
+	</select>
+
+
+	<select id="getNutrientListDao" resultType="com.doxmo.web.dto.Dxm15">
+		SELECT A.prdt_nm, B.prdt_sz, 
+			TO_CHAR(B.tt_weight,'999,999,999') tt_weight, 
+		    TO_CHAR(B.once_piece,'999,999,999') once_piece, 
+			TO_CHAR(B.once_weight,'999,999,999') once_weight, 
+			TO_CHAR(B.calorie,'999,999,999') calorie, 
+			TO_CHAR(B.protein,'999,999,999') protein, 
+			TO_CHAR(B.fat,'999,999,999') fat, 
+			TO_CHAR(B.sodium,'999,999,999') sodium, 
+			TO_CHAR(B.sugar,'999,999,999') sugar
+		from tbl_dxm03 A, tbl_dxm15 B
+		where A.prdt_cd = B.prdt_cd
+		and A.prdt_cd = #{param1} 
+	</select>
+
+
+	<select id="getOrderListDao" resultType="com.doxmo.web.dto.OrderList">
+		SELECT crt_dt, rcpt_tp, order_no, order_prdt, tt_pay, store_nm, store_tel, order_st  
+		from v_order_list
+		where u_id= #{param1}  
+		order by order_no desc 
+	</select>
+	
+	
+	<select id="getUserInfoDao" resultType="com.doxmo.web.dto.Dxm01">
+		select * 
+		from tbl_dxm01 
+		<where> u_id = #{param1} 
+			<if test="param3 == 1">
+				and pswd = #{param2}
+			</if>
+		</where>
+	</select>
+	
+	<select id="getStoreListDao" resultType="com.doxmo.web.dto.Dxm06">
+		select store_cd, store_nm, store_tel, store_zip, store_addr, valid, upd_dt, crt_dt 
+		from   tbl_dxm06 
+		where  valid = 'T' 
+		order by store_nm 
+	</select>
+	
 </mapper>

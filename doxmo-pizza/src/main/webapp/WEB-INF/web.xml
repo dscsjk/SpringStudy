@@ -30,4 +30,14 @@
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 
+<!-- 로그인 여부 확인 : 관련화면 (패스워드 변경, 기사작성및 수정) -->  
+  <filter>
+    <filter-name>LoginCheckFilter</filter-name>
+    <filter-class>com.doxmo.web.servies.filter.LoginCheckFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>LoginCheckFilter</filter-name>
+    <url-pattern>/basket_view</url-pattern>
+    <url-pattern>/order_list</url-pattern>
+  </filter-mapping>
 </web-app>
