@@ -1,8 +1,7 @@
-<%@ page language='java' contentType='text/html; charset=UTF-8'
-    pageEncoding='UTF-8'%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@ taglib prefix='c' uri='http://java.sun.com/jsp/jstl/core'%>
-
-<!DOCTYPE html PUBLIC '-//W3C//DTD HTML 4.01 Transitional//EN' 'http://www.w3.org/TR/html4/loose.dtd'>
 <html>
 <head>
 	<meta charset="euc-kr">
@@ -10,19 +9,24 @@
 	<title>도아니모피자</title>
 	<meta name="viewport" id="viewport" content="width=1119px, user-scalable=yes">
 	<link rel="shortcut icon" href="https://cdn.dominos.co.kr/renewal2016/ko/w/img/favicon.ico"/>
-	<link rel="stylesheet" type="text/css" href="/resources/css/font.css">
+	<link rel="stylesheet" type="text/css" href="resources/css/font.css">
 	<link rel="stylesheet" type="text/css" href="https://cdn.dominos.co.kr/renewal2016/ko/w/css/layout.css?v1.0">
+	<!link rel="stylesheet" type="text/css" href="resources/css/layout.css?v1.0">
 	<link rel="shortcut icon" href="https://cdn.dominos.co.kr/renewal2016/ko/w/img/favicon.ico"/>
-	<link rel="stylesheet" type="text/css" href="/resources/css/font.css">
-	<link rel="stylesheet" type="text/css" href="https://cdn.dominos.co.kr/renewal2016/ko/w/css/layout.css?v1.0">
-<script type="text/javascript" src="/resources/js/jquery1.11.1.js"></script>
-	<script type="text/javascript" src="https://cdn.dominos.co.kr/renewal2016/ko/w/js/ui.js"></script>
-	<script type="text/javascript" src="https://cdn.dominos.co.kr/renewal2016/ko/w/js/jquery.flexslider.js"></script>
+<!--<link rel="stylesheet" type="text/css" href="resources/css/font.css">
+	<link rel="stylesheet" type="text/css" href="resources/css/layout.css">-->
+<script type="text/javascript" src="resources/js/jquery1.11.1.js"></script>
+	<script type="text/javascript" src="resources/js/ui.js"></script>
+	<script type="text/javascript" src="resources/js/jquery.flexslider.js"></script>
 	<script type="text/javascript" src="resources/js/selectbox.js"></script><!-- js 수정함. -->
 	<script type="text/javascript" src="resources/js/d2CommonUtil.js?ver=1.5"></script>
 	<script type="text/javascript" src="resources/js/Cookie.js"></script>
 	<script type="text/javascript" src="resources/js/basket_w.js"></script>
-	
+	<script type="text/javascript"> 
+	var CON_DOMAIN_URL = "../index.html";
+	var CON_SSL_URL = "../index.html";
+	var CON_STATIC_URL = "http://localhost:8181/web/";
+	</script>
 </head>
 <body>
 
@@ -160,7 +164,7 @@
                             </div>
                             <div class="tab_content active">
                                     <div class="detail_view_nutrient">
-                                        <table class="tbl_type">
+                                        <br><br><table class="tbl_type">
                                             <caption>영양성분 정보</caption>
                                             <colgroup>
                                                 <col/>
@@ -222,6 +226,7 @@
 </body>
 <script type="text/javascript">
 function goBasket() {
+	basketform.method="post";
 	basketform.submit();
 }
 

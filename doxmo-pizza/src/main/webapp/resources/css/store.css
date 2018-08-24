@@ -1,0 +1,97 @@
+@charset "utf-8";
+/*@import url("common.css");*/
+
+.store{}
+.store .tab_content_wrap{padding:45px 0;}
+
+.store .tab_content{text-align:center;}
+.store .tab_content .form_container{display:block;}
+.store .tab_content .form_group{display:inline-block}
+.store .tab_content .form_group.selbox{margin-bottom:28px;}
+
+.store .tab_content .form_group.selbox .sel_box{width:150px;text-align:left;}
+.store .tab_content .form_group.selbox .i_text{width:316px;}
+.store .tab_content .form_group.selbox .btn_srch{width:150px;}
+
+.store .tab_content .special_offer{}
+.store .tab_content .special_offer .btn{}
+.store .tab_content .special_offer p{display:inline-block;margin-left:12px;font-size:14px;color:#f06418;vertical-align:middle;line-height:19px;}
+.store .tab_content .special_offer p em{display:inline-block;margin-left:5px;vertical-align:middle;}
+
+
+
+.store .shop_totalnum{position:relative;}
+.store .shop_totalnum p{font-size:14px;color:#767067;line-height:66px;}
+.store .shop_totalnum p em{color:#e51937;font-weight:500;}
+.store .shop_totalnum span{position:absolute;top:50%;right:0;margin-top:-13px;font-size:14px;color:#767067;}
+.store .shop_totalnum span .btn_ico{margin-left:5px;}
+
+.store .shop_find{overflow:hidden;height:660px;background:#fff;box-shadow:1px 2px 3px rgba(69,52,27,0.56)}
+.store .shop_find>.shop_map{float:left;position:relative;width:490px;height:100%;display:block;overflow:hidden;}
+.store .shop_find>.shop_map>img{height:100%;display:block}
+
+.store .shop_find>.shop_map> .map_marker{position:relative;width:65px;height:67px;}
+.marker_info{display:inline-block;position:absolute;z-index:999;bottom:85px;left:50%;width:180px;margin-left:-99px;padding:15px;background-color:#fff;border:1px solid #bfbfbf;border-radius:8px}
+.marker_info strong{font-size:18px;font-weight:500;color:#38474f;line-height:18px;}
+.marker_info:after{display:block;content:'';position:absolute;bottom:-8px;left:50%;width:26px;height:9px;margin-left:-13px;background:url(../img/bul/bul_arr_dw.png) no-repeat 0 0;}
+.marker_info .btn_wrap{margin-top:5px;}
+.store .shop_find>.shop_map .btn_screen{display:block;position:absolute;bottom:11px;right:12px;width:85px;height:85px;}
+
+
+.store .shop_find>.shop_list{float:left;width:510px;height:100%;padding:22px 10px;}
+.store .shop_find>.shop_list>ul{padding:0 18px 0 10px;height:616px;overflow-y:auto}
+.store .shop_find>.shop_list>ul>li{margin-top:16px;border:1px solid #bebebe;}
+.store .shop_find>.shop_list>ul>li:first-child{margin-top:0;}
+.store .shop_find>.shop_list .shopcard_content{position:relative;padding:13px 18px 16px;min-height:140px;}
+.store .shop_find>.shop_list .shopcard_content .title{margin-bottom:6px;padding-right:100px;font-size:18px;color:#38474f;font-weight:500;}
+.store .shop_find>.shop_list .shopcard_content .address{color:#717171;max-width:250px;min-height:41px}
+.store .shop_find>.shop_list .shopcard_content .distance{margin-bottom:2px;font-weight:500;color:#0078ae;}
+.store .shop_find>.shop_list .shopcard_content .phone_num{color:#38474f;}
+.store .shop_find>.shop_list .shopcard_content .phone_num span{display:inline-block;vertical-align:middle;margin-right:5px;}
+
+.store .shop_find>.shop_list .shopcard_tag{overflow:hidden;position:absolute;top:0;right:15px;}
+.store .shop_find>.shop_list .shopcard_tag .store_tag{float:left;margin-left:5px;}
+
+
+.store .shop_find>.shop_list .btn_box{position:absolute;bottom:18px;right:16px;}
+.store .shop_find>.shop_list .btn_box .btn{margin-left:7px;}
+.store .shop_find>.shop_list .btn_box .btn:first-child{margin-left:0;}
+
+.store .shop_find>.shop_list .shopcard_bottom{position:relative;padding:3px 0 3px 90px;height:43px;background:#faf8f7}
+.store .shop_find>.shop_list .shopcard_bottom .ico_p_sale{position:absolute;left:5px;top:50%;margin-top:-28px;}
+.store .shop_find>.shop_list .shopcard_bottom>p{position:absolute;left:14px;top:50%;margin-top:-11px;padding:0 10px;border-radius:11px;border:1px solid #f06418;font-size:12px;color:#f06418;line-height:20px;}
+.store .shop_find>.shop_list .shopcard_bottom .sale_list{overflow:hidden;display:inline-block;vertical-align:middle}
+.store .shop_find>.shop_list .shopcard_bottom:after{display:inline-block;vertical-align:middle;content:'';height:100%;}
+.store .shop_find>.shop_list .shopcard_bottom .sale_list li{font-size:14px;color:#f06418;line-height:18px;}
+.store .shop_find>.shop_list .shopcard_bottom .sale_list li:first-child{margin-top:0;}
+
+
+.store .findresult_map{height:660px;box-shadow:1px 2px 3px rgba(69,52,27,0.56);background:#fff}
+.store .findresult_map .result_empty{padding-top:200px;text-align:center;}
+.store .findresult_map .result_empty .ico_findmap_null{width:42px;height:56px;background:url(../img/ico/ico_store_nul.png)}
+.store .findresult_map .result_empty p{margin-top:17px;font-size:18px;line-height:24px;color:#38474f;}
+.store .findresult_map .result_empty .btn{margin-top:40px;}
+/* 도미챗 */
+.store .chat_order{position:fixed;bottom:10px;left:50%;margin-left:-170px}
+.store .chat_order.chat_hide{display:none;}
+.store .chat_order a{display:block;overflow:hidden;text-indent:-999em}
+.store .chat_order .btn_chat{width:340px;height:62px;background:url(../img/img_chat.gif) no-repeat 0 0;border-radius:6px 0 6px 6px}
+.store .chat_order .chat_bubble{position:absolute;top:-80px;right:-86px;display: none;}
+.store .chat_order .chat_bubble.active{display: block;}
+.store .chat_order .btn_close{position:absolute;top:0;right:-26px;width:27px;height:25px;background:url(../img/btn/spr_btn.png) no-repeat -110px -250px;}
+
+.store .chat_order.active{bottom:130px;left:50%;margin-left:510px;}
+.store .chat_order.active .btn_chat{width:59px;height:60px;background:url(../img/btn_chat.gif) no-repeat 0 0;border-radius:0; }
+.store .chat_order.active .btn_close{display:none;}
+.store body.fixed{position: fixed;top: 0px;bottom: 0px;width: 100%;height: 100%;}
+
+/* 도미노스팟 지도버전 */
+.dominospot_map{display:none;}
+.dominospot_map.active{display:block;}
+.dominospot_vermap .dominospot_header p strong{font-size:18px;}
+.dominospot_map{margin-top: 20px;}
+.dominospot_map .store .shop_find{height: 460px;}
+.store .shop_find>.shop_map.dominospot{width: 540px;height: 460px;}
+
+.dominospot .map_marker .marker_info p{font-size:14px;font-weight:500;color: #38474f;margin-bottom: 15px;}
+/* 도미노스팟 지도버전 */

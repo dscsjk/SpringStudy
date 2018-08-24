@@ -33,7 +33,7 @@
 		<!-- //sub_title -->
 
 		<div class="login_area">
-			<form id="loginFrm" name="login_basket" action="login" method="post">
+			<form id="loginFrm" name="loginForm" action="login_basket" method="post">
 <input type="hidden" name="prdt_cd" value="${Order.prdt_cd}" >
 <input type="hidden" name="prdt_img" value="${Order.prdt_img}" >
 <input type="hidden" name="prdt_nm" value="${Order.prdt_nm}" >
@@ -68,7 +68,6 @@
 function doLogin() {
 	loginForm.submit();
 }
-
 
 </script>
 </html>
