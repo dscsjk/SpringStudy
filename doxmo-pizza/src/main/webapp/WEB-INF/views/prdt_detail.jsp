@@ -4,32 +4,15 @@
 <%@ taglib prefix='c' uri='http://java.sun.com/jsp/jstl/core'%>
 <html>
 <head>
-	<meta charset="euc-kr">
+	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>도아니모피자</title>
 	<meta name="viewport" id="viewport" content="width=1119px, user-scalable=yes">
 	<link rel="shortcut icon" href="https://cdn.dominos.co.kr/renewal2016/ko/w/img/favicon.ico"/>
-	<link rel="stylesheet" type="text/css" href="resources/css/font.css">
+	<link rel="stylesheet" type="text/css" href="/resources/css/font.css">
 	<link rel="stylesheet" type="text/css" href="https://cdn.dominos.co.kr/renewal2016/ko/w/css/layout.css?v1.0">
-	<!link rel="stylesheet" type="text/css" href="resources/css/layout.css?v1.0">
-	<link rel="shortcut icon" href="https://cdn.dominos.co.kr/renewal2016/ko/w/img/favicon.ico"/>
-<!--<link rel="stylesheet" type="text/css" href="resources/css/font.css">
-	<link rel="stylesheet" type="text/css" href="resources/css/layout.css">-->
-<script type="text/javascript" src="resources/js/jquery1.11.1.js"></script>
-	<script type="text/javascript" src="resources/js/ui.js"></script>
-	<script type="text/javascript" src="resources/js/jquery.flexslider.js"></script>
-	<script type="text/javascript" src="resources/js/selectbox.js"></script><!-- js 수정함. -->
-	<script type="text/javascript" src="resources/js/d2CommonUtil.js?ver=1.5"></script>
-	<script type="text/javascript" src="resources/js/Cookie.js"></script>
-	<script type="text/javascript" src="resources/js/basket_w.js"></script>
-	<script type="text/javascript"> 
-	var CON_DOMAIN_URL = "../index.html";
-	var CON_SSL_URL = "../index.html";
-	var CON_STATIC_URL = "http://localhost:8181/web/";
-	</script>
 </head>
 <body>
-
 <jsp:include page="header.jsp"/>
 
 
@@ -220,31 +203,12 @@
                 </div>
                 <!-- //prd_detail -->
         
-            </div>
-            
-         
+            </div>         
 </body>
 <script type="text/javascript">
 function goBasket() {
-	basketform.method="post";
 	basketform.submit();
 }
-
-
-
 </script>
 
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-

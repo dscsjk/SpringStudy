@@ -24,6 +24,6 @@ public interface DxmDao {
 	public ArrayList<OrderList> getOrderListDao(String u_id);
 	public Dxm01 getUserInfoDao(String u_id, String pswd, int tp);
 	public ArrayList<Dxm06> getStoreListDao();
-	public Boolean setOrderDao(Dxm07 order);
-	public Boolean setOrderListDao(ArrayList<Dxm08> prdtList);
+	public void setOrderDao(Dxm07 order);
+	public void setOrderListDao(ArrayList<Dxm08> prdtList);
 }

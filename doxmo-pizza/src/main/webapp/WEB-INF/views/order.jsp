@@ -21,69 +21,200 @@
 
 
 <head>
-<meta charset="UTF-8">
-<title>Doxmo Pizza</title>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>도아니모피자</title>
+	<meta name="viewport" id="viewport" content="width=1119px, user-scalable=yes">
+	<link rel="shortcut icon" href="https://cdn.dominos.co.kr/renewal2016/ko/w/img/favicon.ico"/>
+	<link rel="stylesheet" type="text/css" href="/resources/css/font.css">
+	<link rel="stylesheet" type="text/css" href="https://cdn.dominos.co.kr/renewal2016/ko/w/css/layout.css?v1.0">
 </head>
 <body>
->> 주문서 작성
-<table width="600" cellpadding="0" cellspacing="0" border="1">
-<tr>
-<td>
+<jsp:include page="header.jsp"/>
+
+<div id="container">
+<iframe id="inicisFrame" name="inicisFrame" title="시스템용" src="" style="display:none;width:0px;height:0px;"></iframe>
+<form name="OrderForm" action="order" method="post">
+	<div id="hidden_info">
+		<input type="hidden" name="order_gubun" id="order_gubun" value="O">
+	</div>
+	<div id="content" class="cart_payment">
+		<div class="sub_title">
+			<div class="sub_title_wrap">
+				<h2>주문서 작성</h2>
+			</div>
+		</div>
+
+		<div class="order_info">
+			<!-- 배달 -->
+			<div class="order_section order_type">
+					<div class="tit_order btn_tit2">
+						<strong>
 <c:if test="${RcptTp.rcpt_tp == 01 }">배달주문</c:if>
 <c:if test="${RcptTp.rcpt_tp == 02 }">방문포장</c:if>
-</td>
-</tr>
-<tr>
-<td>${RcptTp.rcpt_addr}</td>
-</tr>
-<tr>
-<td>${RcptTp.rcpt_nm} (${RcptTp.rcpt_tel}) </td>
-</tr>
-</table>
+						</strong>
+						<a href="#" class="btn"><span class="btn_txt">주문매장 변경</span></a>
+					</div>
+					<div class="order_adr">
+						<p class="addr_info">${RcptTp.rcpt_addr}</p>
+						<strong class="order_store_info">${RcptTp.rcpt_nm}<span>(${RcptTp.rcpt_tel})</span></strong>
+					</div>
+				</div>
+			<!-- // 배달 -->
+			<!-- 포장 -->
+			<!-- // 포장 -->
 
->> 주문제품
+			<div class="order_section_wrap variable">
+				<!-- 주문제품 -->
+				<div class="order_section order_prd">
+					<div class="tit_order btn_tit">
+						<strong>주문제품</strong>
+						<a href="/goods/list?dsp_ctgr=C0101" class="btn"><span class="btn_txt">메뉴 변경하기</span></a>
+					</div>
+					<div class="order_prd_info">
+						<div id="goodsBrief">
+						</div>
+						<div id="goods_info">
+							<div class="order_prd_lst">
+								<table class="tbl_type">
+									<colgroup>
+										<col>
+										<col>
+										<col>
+									</colgroup>
+									<thead>
+										<tr>
+											<th>주문제품</th>
+											<th>수량</th>
+											<th>가격</th>
+										</tr>
+									</thead>
+									<tbody id="goodsList">
 <c:set var="totPrice" value="0"/>
-<table width="600" cellpadding="0" cellspacing="0" border="1">
 <c:forEach items="${OrderList}" var="dto">
-<tr>
-<td>${dto.prdt_nm} ${dto.prdt_sz}</td>
-<td>${dto.order_cnt}</td>
-<td><c:set var="tPrice" value="${dto.price*dto.order_cnt}"/>${tPrice}</td>
-<c:set var="totPrice" value="${totPrice+tPrice}"/>
+									
+										<tr>
+												<td class="txt_align_lft" id="goods_name">
+										<!-- 		<span>블랙타이거 슈림프오리지널 L</span>   -->		
+													<span>${dto.prdt_nm} ${dto.prdt_sz}</span>
+													<!-- 	<span style="display:none;" id="goods_name_brief">블랙타이거 슈림프오리지널 L (1)</span>   -->	
+													<span style="display:none;" id="goods_name_brief">${dto.prdt_nm} ${dto.prdt_sz}</span>
+												</td>
+												<td>${dto.order_cnt}</td>
+												<td><c:set var="tPrice" value="${dto.price*dto.order_cnt}"/>${tPrice}</td>
+												<c:set var="totPrice" value="${totPrice+tPrice}"/>
+											</tr>
+</c:forEach>											
+										</tbody>
+								</table>
+								<input type="hidden" name="total_price" id="total_price" value="33900" />
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- // 주문제품 -->
 
-</tr>
-</c:forEach>
-</table>
-<form name="OrderForm" action="order" method="post">
->> 수령인 정보
-<table width="600" cellpadding="0" cellspacing="0" border="1">
-<tr>
-<td>이름 </td>
-<td><input type="text" name="rcpt_nm" value="${User.u_name}"></td>
-</tr>
-<tr>
-<td>전화번호 </td>
-<td><input type="text" name="rcpt_tel" value="${User.u_tel}"></td>
-</tr>
-<tr>
-<td>기타 요청사항 </td>
-<td><textarea name="memo" cols="30" rows="4"></textarea></td>
-</tr>
-</table>
-# 제품 수령을 위하여 연락처를 꼭 확인 해주세요.
->> 결제방법
-<table width="600" cellpadding="0" cellspacing="0" border="1">
-<tr>
-<td><input type="radio" name="pay_tp" value="0" checked="checked" /> 신용카드
-	<input type="radio" name="pay_tp" value="1" /> 현금
-	<input type="hidden" name="tt_pay" value="${totPrice}" />
-</td>
-</tr>
-</table>
+								<!-- 수령인 정보 -->
+				<div class="order_section order_sale" id="dc_info">
+					<div class="tit_order chk_tit">
+						<strong>수령인 정보</strong>
+						<span class="custom_form">
+							<input type="checkbox" name="chk1" id="recipient" onchange="recipientChange()" checked>
+							<label for="recipient" id="recipient_label" class="ip_chk checked">
+								<em></em><span>주문자와 동일</span>
+							</label>
+						</span>
+					</div>
+					<div class="order_receipt_info">
+						<div class="receipt_form">
+							<ul>
+								<li class="form_name">
+									<label for="customerName">이름</label>
+									<div class="form_group">
+										<div class="form_field">
+											<div class="form_item">
+												<span class="i_label" style="position: absolute;"></span>
+												<input type="text" id="customerName" name="rcpt_nm" value="${User.u_name}" maxlength="30" class="i_text">
+											</div>
+										</div>
+									</div>
+								</li>
+								<li class="form_name">
+									<label for="customerName">이름</label>
+									<div class="form_group">
+										<div class="form_field">
+											<div class="form_item">
+												<span class="i_label" style="position: absolute;"></span>
+												<input type="text" id="customerName" name="rcpt_tel" value="${User.u_tel}" maxlength="30" class="i_text">
+											</div>
+										</div>
+									</div>
+								</li>
+								<!-- 2017-06-22 // 문구 추가(s) -->
+								<li class="num_message">※ 제품 수령을 위하여 연락처를 꼭 확인 해주세요.</li>
+								<!-- 2017-06-22 // 문구 추가(e) -->
+							</ul>
+							<dl>
+								<dt>기타 요청 사항</dt>
+								<dd>
+									<div class="form_item">
+										<span class="i_label" style="position: absolute;">최대 25자까지 입력가능</span>
+										<textarea id="more_req" name="memo" onkeyup="checkByte(this, 50)" class="i_text" title="기타요청사항"></textarea>
+									</div>
+								</dd>
+							</dl>
+						</div>
+					</div>
+				</div>
+				<!-- // 수령인 정보 -->
+				
+			</div>
 
-결제 금액 : ${totPrice}
-<input type="submit" value="결제 및 주문완료">
+			<div class="order_section_wrap variable">
+
+			</div>
+
+			<!-- 결제방법 -->
+			<div id="pay_info">
+			
+			</div>
+			<!-- // 결제방법 -->
+
+			<!-- 결제 금액, 퀵 오더로 설정, 결제 및 주문완료 -->
+			<div class="order_section order_total" id="final_pay_info">
+			
+				<div class="order_total_info">
+
+					<dl class="price_total">
+						<dt>결제방법</dt>
+						<dd><input type="radio" name="pay_tp" value="0" checked="checked" /> 신용카드
+							<input type="radio" name="pay_tp" value="1" /> 현금
+							<input type="hidden" name="tt_pay" value="${totPrice}" /></dd>
+					</dl>
+					<div class="order_complete">
+						<a href="javascript:goOrder()" id="doOrder" class="btn btn_mdle btn_red btn_basic"><span class="btn_txt">결제 및 주문완료</span></a>
+					</div>
+					
+				</div>
+				<div class="order_total_info">
+					<dl class="price_total">
+						<dt>총 주문 금액</dt>
+						<dd>${totPrice}</dd>
+					</dl>
+				</div>
+			</div>
+			<!-- // 결제 금액, 퀵 오더로 설정, 결제 및 주문완료 -->
+		</div>
+	</div>
 </form>
+</div>
+
+<script type="text/javascript">
+function goOrder() {
+	document.OrderForm.submit();
+}
+</script>
+
 </body>
 </html>
 

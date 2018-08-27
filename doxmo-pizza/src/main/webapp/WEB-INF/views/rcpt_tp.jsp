@@ -4,8 +4,8 @@
 
 <!DOCTYPE html PUBLIC '-//W3C//DTD HTML 4.01 Transitional//EN' 'http://www.w3.org/TR/html4/loose.dtd'>
 <html>
-head>
-	<meta charset="euc-kr">
+<head>
+	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>도아니모피자</title>
 	<meta name="viewport" id="viewport" content="width=1119px, user-scalable=yes">
@@ -38,16 +38,16 @@ head>
 					<div class="form_group">
 						<div class="form_field">
 							<span class="custom_form">
-								<input type="radio" id="way_rdo" name="order_gubun_radio" value="O"  onchange="selectOG();">
-								<label for="way_rdo" class="ip_rdo2 ">
+								<input type="radio" id="way_rdo" name="order_gubun_radio" value="O"  onchange="selectOG();" checked>
+								<label for="way_rdo" class="ip_rdo2 checked">
 									<em></em><span>방문포장</span>
 								</label>
 							</span>
 						</div>
 						<div class="form_field">
 							<span class="custom_form">
-								<input type="radio" id="way_rdo2" name="order_gubun_radio" value="W" checked  onchange="selectOG();">
-								<label for="way_rdo2" class="ip_rdo2 checked">
+								<input type="radio" id="way_rdo2" name="order_gubun_radio" value="W" checked  onchange="selectOG();" disabled>
+								<label for="way_rdo2" class="ip_rdo2 ">
 									<em></em><span>배달주문</span>
 								</label>
 							</span>

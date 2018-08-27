@@ -4,14 +4,14 @@
 <%@ taglib prefix='c' uri='http://java.sun.com/jsp/jstl/core'%>
 <html lang="ko">
 <head>
-	<meta charset="euc-kr">
+	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>도아니모피자</title>
 	<meta name="viewport" id="viewport" content="width=1119px, user-scalable=yes">
 	<link rel="shortcut icon" href="https://cdn.dominos.co.kr/renewal2016/ko/w/img/favicon.ico"/>
 	<link rel="stylesheet" type="text/css" href="/resources/css/font.css">
 	<link rel="stylesheet" type="text/css" href="https://cdn.dominos.co.kr/renewal2016/ko/w/css/layout.css?v1.0">
-!-- // Naver Anlytics 공통-->
+<!-- // Naver Anlytics 공통-->
 
 </head>
 <body>

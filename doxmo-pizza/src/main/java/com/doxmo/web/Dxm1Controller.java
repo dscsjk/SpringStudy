@@ -8,7 +8,10 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -28,8 +31,101 @@ public class Dxm1Controller {
 	private SqlSession sqlSession;
 	
 	// 트랜잭션 처리
-//	@Autowired
-//	private DataSourceTransactionManager transactionManager;
+	@Autowired
+	private DataSourceTransactionManager transactionManager;
+	
+	@RequestMapping("/basket")
+	public String basket(HttpServletRequest request,Model model) {
+		System.out.println("/basket");
+
+		HttpSession session = request.getSession(false);
+		model.addAttribute("request", request);
+		
+		// 세션이 존재하지 않으면 login화면으로 가기
+		if (session.getAttribute("User") == null) {
+			System.out.println(">> User세션 is null");
+			
+			// 로그인전의 주문상품을 넘긴다.
+			OrderPrdt order = new OrderPrdt();
+			order.setPrdt_cd(request.getParameter("prdt_cd"));
+			order.setPrdt_img(request.getParameter("prdt_img"));
+			order.setPrdt_nm(request.getParameter("prdt_nm"));
+			
+			System.out.println("한글깨짐확인"+request.getParameter("prdt_nm"));
+			
+			
+			String prdt_sz=request.getParameter("prdt_sz");
+			order.setPrdt_sz(prdt_sz.substring(0, 1));
+			order.setPrice(Integer.parseInt(prdt_sz.substring(2)));
+			order.setOrder_cnt(Integer.parseInt(request.getParameter("order_cnt")));
+			
+			model.addAttribute("Order", order);
+			return "login3";
+		} 
+		// 주문방법이 존재하지 않으면 세션에 임시로 주문상품 저장하고 주문방법 선택화면으로 가기
+		if ( session.getAttribute("RcptTp") == null ) { 
+			System.out.println(">> 주문방법 is null");
+
+			getStoreList(request, model);
+			return "rcpt_tp";
+		}
+		// 로그인과 주문방법이 존재하면 주문정보를 세션에 담고 제품리스트화면으로 가기
+		System.out.println(">> 세션과 주문방법이 존재 ");
+		BasketService(request);
+
+		return "redirect:prdt_list";
+	}
+	
+	public void BasketService(HttpServletRequest request) {
+		// request parameter 값을 가져온다.
+		System.out.println("BasketService");
+		OrderPrdt order = new OrderPrdt();
+		
+		order.setPrdt_cd(request.getParameter("prdt_cd"));
+		order.setPrdt_img(request.getParameter("prdt_img"));
+		order.setPrdt_nm(request.getParameter("prdt_nm"));
+
+		System.out.println("한글깨짐확인"+request.getParameter("prdt_nm"));
+		String prdt_sz=request.getParameter("prdt_sz");
+		
+		order.setPrdt_sz(prdt_sz.substring(0, 1));
+		order.setPrice(Integer.parseInt(prdt_sz.substring(2)));
+		order.setOrder_cnt(Integer.parseInt(request.getParameter("order_cnt")));
+		System.out.println(order.getOrder_cnt());
+		
+		HttpSession session = request.getSession();
+		ArrayList<OrderPrdt> orderList = new ArrayList<OrderPrdt>();
+		ArrayList<OrderPrdt> sessionOrderList = (ArrayList<OrderPrdt>) session.getAttribute("OrderList");
+		
+		if (sessionOrderList==null) {
+			orderList.add(order);
+		} else {
+			int dupCnt=0;
+			// 동일제품코드와 사이즈가 있으면 주문갯수만 더해서 리스트를 업데이트한다.
+			for (OrderPrdt isOrder : sessionOrderList) {
+				if (isOrder.getPrdt_cd().equals(order.getPrdt_cd())
+				 && isOrder.getPrdt_sz().equals(order.getPrdt_sz())) {
+
+					int cnt = isOrder.getOrder_cnt()+order.getOrder_cnt();
+					isOrder.setOrder_cnt(cnt);
+					dupCnt++;
+				}
+				orderList.add(isOrder);
+			}
+			
+			System.out.println("1.dupCnt"+dupCnt);
+			
+			if (dupCnt==0) {
+				System.out.println("2.dupCnt"+dupCnt);
+				orderList.add(order);
+			}
+		}
+		session.setAttribute("OrderList", orderList);
+	}
+
+	
+	
+	
 	
 	@RequestMapping("/basket_del")
 	public String basket_del( HttpServletRequest request, Model model) {
@@ -205,7 +301,7 @@ public class Dxm1Controller {
 	}
 
 	@RequestMapping("/order")
-	public String order( HttpServletRequest request, Model model) {
+	public String order( HttpServletRequest request, Model model) throws Exception {
 		System.out.println("/order");
 		model.addAttribute("request", request);
 
@@ -218,6 +314,8 @@ public class Dxm1Controller {
 		
 		// 주문서 정보 작성
 		Dxm07 order = new Dxm07();
+		long order_no = System.currentTimeMillis();
+		order.setOrder_no(String.valueOf(order_no));
 		order.setU_id(sUser.getU_id());
 		order.setStore_cd(sRcptTp.getRcpt_cd());
 		order.setTt_pay(Integer.parseInt(request.getParameter("tt_pay")));
@@ -228,26 +326,57 @@ public class Dxm1Controller {
 		order.setRcpt_addr(sRcptTp.getRcpt_addr());
 		order.setMemo(request.getParameter("memo"));
 
+//		System.out.println(order.getOrder_no());
+//		System.out.println(order.getU_id());
+//		System.out.println(order.getStore_cd());
+//		System.out.println(order.getTt_pay());
+//		System.out.println(order.getPay_tp());
+//		System.out.println(order.getRcpt_tp());
+//		System.out.println(order.getRcpt_nm());
+//		System.out.println(order.getRcpt_tel());
+//		System.out.println(order.getRcpt_addr());
+//		System.out.println(order.getMemo());
+
 		// 주문 품목 장성
 		ArrayList<Dxm08> prdtList = new ArrayList<Dxm08>();
 		for( OrderPrdt sOrderPrdt : sOrderList ) {
 			Dxm08 orderPrdt = new Dxm08();
+			orderPrdt.setOrder_no(String.valueOf(order_no));
 			orderPrdt.setPrdt_cd(sOrderPrdt.getPrdt_cd());
 			orderPrdt.setPrdt_sz(sOrderPrdt.getPrdt_sz());
 			orderPrdt.setOrder_cnt(sOrderPrdt.getOrder_cnt());
+//			System.out.println(orderPrdt.getOrder_no());
+//			System.out.println(orderPrdt.getPrdt_cd());
+//			System.out.println(orderPrdt.getPrdt_sz());
+//			System.out.println(orderPrdt.getOrder_cnt());
+
 			prdtList.add(orderPrdt);
+
 		}
 		
 		// DB에 insert
-		DxmDao dxmDao = sqlSession.getMapper(DxmDao.class);
 		Boolean rtn = false;
-		rtn= dxmDao.setOrderDao(order);
-		rtn= dxmDao.setOrderListDao(prdtList);
+		DxmDao dxmDao = sqlSession.getMapper(DxmDao.class);
+		DefaultTransactionDefinition def = new DefaultTransactionDefinition();
+		TransactionStatus status = transactionManager.getTransaction(def);
 
-		if (rtn==true) {
-			session.removeAttribute("Order");
-			session.removeAttribute("OrderList");
+		try {
+//			System.out.println("insert 시작");
+			dxmDao.setOrderDao(order);
+			
+//			System.out.println("insert Tbl_dxm07");
+			dxmDao.setOrderListDao(prdtList);
+//			System.out.println("insert Tbl_dxm08");
+			transactionManager.commit(status);
+
+		} catch (Exception e) {
+			transactionManager.rollback(status);
+			e.printStackTrace();
 		}
+
+		session.removeAttribute("Order");
+		session.removeAttribute("OrderList");
+		rtn = true;
 		model.addAttribute("rtn", rtn);
 		return "order_end";
 	}
@@ -264,89 +393,8 @@ public class Dxm1Controller {
 		return "order_list";
 	}
 
-	@RequestMapping("/basket")
-	public String basket(HttpServletRequest request,Model model) {
-		System.out.println("/basket");
 
-		HttpSession session = request.getSession(false);
-		model.addAttribute("request", request);
-		
-		// 세션이 존재하지 않으면 login화면으로 가기
-		if (session.getAttribute("User") == null) {
-			System.out.println(">> User세션 is null");
-			
-			// 로그인전의 주문상품을 넘긴다.
-			OrderPrdt order = new OrderPrdt();
-			order.setPrdt_cd(request.getParameter("prdt_cd"));
-			order.setPrdt_img(request.getParameter("prdt_img"));
-			order.setPrdt_nm(request.getParameter("prdt_nm"));
-			System.out.println(request.getParameter("prdt_nm"));
-			String prdt_sz=request.getParameter("prdt_sz");
-			order.setPrdt_sz(prdt_sz.substring(0, 1));
-			order.setPrice(Integer.parseInt(prdt_sz.substring(2)));
-			order.setOrder_cnt(Integer.parseInt(request.getParameter("order_cnt")));
-			
-			model.addAttribute("Order", order);
-			return "login3";
-		} 
-		// 주문방법이 존재하지 않으면 세션에 임시로 주문상품 저장하고 주문방법 선택화면으로 가기
-		if ( session.getAttribute("RcptTp") == null ) { 
-			System.out.println(">> 주문방법 is null");
-
-			getStoreList(request, model);
-			return "rcpt_tp";
-		}
-		// 로그인과 주문방법이 존재하면 주문정보를 세션에 담고 제품리스트화면으로 가기
-		System.out.println(">> 세션과 주문방법이 존재 ");
-		BasketService(request);
-
-		return "redirect:prdt_list";
-	}
 	
-	public void BasketService(HttpServletRequest request) {
-		// request parameter 값을 가져온다.
-		System.out.println("BasketService");
-		OrderPrdt order = new OrderPrdt();
-		
-		order.setPrdt_cd(request.getParameter("prdt_cd"));
-		order.setPrdt_img(request.getParameter("prdt_img"));
-		order.setPrdt_nm(request.getParameter("prdt_nm"));
-		String prdt_sz=request.getParameter("prdt_sz");
-		
-		order.setPrdt_sz(prdt_sz.substring(0, 1));
-		order.setPrice(Integer.parseInt(prdt_sz.substring(2)));
-		order.setOrder_cnt(Integer.parseInt(request.getParameter("order_cnt")));
-		System.out.println(order.getOrder_cnt());
-		
-		HttpSession session = request.getSession();
-		ArrayList<OrderPrdt> orderList = new ArrayList<OrderPrdt>();
-		ArrayList<OrderPrdt> sessionOrderList = (ArrayList<OrderPrdt>) session.getAttribute("OrderList");
-		
-		if (sessionOrderList==null) {
-			orderList.add(order);
-		} else {
-			int dupCnt=0;
-			// 동일제품코드와 사이즈가 있으면 주문갯수만 더해서 리스트를 업데이트한다.
-			for (OrderPrdt isOrder : sessionOrderList) {
-				if (isOrder.getPrdt_cd().equals(order.getPrdt_cd())
-				 && isOrder.getPrdt_sz().equals(order.getPrdt_sz())) {
-
-					int cnt = isOrder.getOrder_cnt()+order.getOrder_cnt();
-					isOrder.setOrder_cnt(cnt);
-					dupCnt++;
-				}
-				orderList.add(isOrder);
-			}
-			
-			System.out.println("1.dupCnt"+dupCnt);
-			
-			if (dupCnt==0) {
-				System.out.println("2.dupCnt"+dupCnt);
-				orderList.add(order);
-			}
-		}
-		session.setAttribute("OrderList", orderList);
-	}
 
 	@RequestMapping("/logout")
 	public String logout(HttpServletRequest request, Model model) {

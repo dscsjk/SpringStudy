@@ -11,7 +11,6 @@
 	<link rel="shortcut icon" href="https://cdn.dominos.co.kr/renewal2016/ko/w/img/favicon.ico"/>
 	<link rel="stylesheet" type="text/css" href="/resources/css/font.css">
 	<link rel="stylesheet" type="text/css" href="https://cdn.dominos.co.kr/renewal2016/ko/w/css/layout.css?v1.0">
-!-- // Naver Anlytics 공통-->
 
 </head>
 <body>

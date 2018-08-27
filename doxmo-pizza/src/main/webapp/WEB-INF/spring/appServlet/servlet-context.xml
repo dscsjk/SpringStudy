@@ -31,6 +31,12 @@
 		<beans:property name="password" value="tiger" />
 	</beans:bean>
 	
+	<beans:bean id="transactionManager" 
+      class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+    	<beans:property name="dataSource" ref="dataSource"/>
+	</beans:bean>
+	
+	
 	<beans:bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<beans:property name="dataSource" ref="dataSource"></beans:property>
 		<beans:property name="mapperLocations" value="classpath:com/doxmo/web/dao/mapper/*.xml"></beans:property>

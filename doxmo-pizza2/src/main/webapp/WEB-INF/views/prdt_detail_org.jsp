@@ -61,16 +61,3 @@ PRDT_DETAIL.jsp 피자 리스트 화면
 </table>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-

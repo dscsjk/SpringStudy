@@ -53,7 +53,7 @@
 		order by order_no desc 
 	</select>
 	
-	
+	<!-- Dynamic sql -->
 	<select id="getUserInfoDao" resultType="com.doxmo.web.dto.Dxm01">
 		select * 
 		from tbl_dxm01 
@@ -71,10 +71,19 @@
 		order by store_nm 
 	</select>
 
-  <insert id="setOrderDao">
-    insert into tbl_dxm07 (order_no,u_id,store_cd,tt_pay,pay_tp,rcpt_tp,rcpt_nm,rcpt_tel,rcpt_addr,memo,order_st) 
-	values(#{param1}, #{param2},#{param3}, #{param4},#{param5}, #{param6},#{param7}, #{param8},#{param9}, #{param10},'01') 
-  </insert>
+	<!-- 구조체로 Insert -->
+	<insert id="setOrderDao" parameterType="com.doxmo.web.dto.Dxm07">
+    	insert into tbl_dxm07 
+    		(order_no, u_id, store_cd, tt_pay, pay_tp, rcpt_tp, rcpt_nm, rcpt_tel, rcpt_addr, memo, order_st) 
+		values(#{order_no}, #{u_id}, #{store_cd}, #{tt_pay}, #{pay_tp}, #{rcpt_tp}, #{rcpt_nm}, #{rcpt_tel}, #{rcpt_addr}, #{memo}, '01') 
+	</insert>
 
+	<!-- ArrayList Insert -->
+	<insert id="setOrderListDao" parameterType="com.doxmo.web.dto.Dxm08">
+		<foreach collection="list" item="item" index="index"  open="INSERT ALL " separator=" "  close="SELECT * FROM DUAL">
+			into tbl_dxm08 (order_no, prdt_cd, prdt_sz, order_cnt) values
+			(#{item.order_no}, #{item.prdt_cd},#{item.prdt_sz}, #{item.order_cnt}) 
+		</foreach>
+  </insert>
 	
 </mapper>
