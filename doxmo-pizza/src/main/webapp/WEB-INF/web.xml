@@ -56,7 +56,13 @@
   </filter>
   <filter-mapping>
     <filter-name>LoginCheckFilter</filter-name>
+    <url-pattern>/basket_del</url-pattern>
+    <url-pattern>/basket_add</url-pattern>
     <url-pattern>/basket_view</url-pattern>
+    <url-pattern>/rcpt_tp_choice</url-pattern>
+    <url-pattern>/order</url-pattern>
+    <url-pattern>/order_view</url-pattern>
     <url-pattern>/order_list</url-pattern>
+    <url-pattern>/logout</url-pattern>
   </filter-mapping>
 </web-app>

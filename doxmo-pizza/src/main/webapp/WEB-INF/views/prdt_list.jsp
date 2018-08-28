@@ -4,35 +4,17 @@
 <%@ taglib prefix='c' uri='http://java.sun.com/jsp/jstl/core'%>
 <html lang="ko">
 <head>
-	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>도아니모피자</title>
 	<meta name="viewport" id="viewport" content="width=1119px, user-scalable=yes">
-	<link rel="shortcut icon" href="https://cdn.dominos.co.kr/renewal2016/ko/w/img/favicon.ico"/>
+	<link rel="shortcut icon" href="resources/img/ico/favicon.ico.png"/>
 	<link rel="stylesheet" type="text/css" href="resources/css/font.css">
-	<!link rel="stylesheet" type="text/css" href="https://cdn.dominos.co.kr/renewal2016/ko/w/css/layout.css?v1.0">
 	<link rel="stylesheet" type="text/css" href="resources/css/layout.css?v1.0">
-	<link rel="shortcut icon" href="https://cdn.dominos.co.kr/renewal2016/ko/w/img/favicon.ico"/>
-<!--<link rel="stylesheet" type="text/css" href="resources/css/font.css">
-	<link rel="stylesheet" type="text/css" href="resources/css/layout.css">-->
-	<script type="text/javascript" src="resources/js/jquery1.11.1.js"></script>
-	<script type="text/javascript" src="resources/js/ui.js"></script>
-	<script type="text/javascript" src="resources/js/jquery.flexslider.js"></script>
-	<script type="text/javascript" src="resources/js/selectbox.js"></script><!-- js 수정함. -->
-	<script type="text/javascript" src="resources/js/d2CommonUtil.js?ver=1.5"></script>
-	<script type="text/javascript" src="resources/js/Cookie.js"></script>
-	<script type="text/javascript" src="resources/js/basket_w.js"></script>
-	<script type="text/javascript"> 
-	var CON_DOMAIN_URL = "../index.html";
-	var CON_SSL_URL = "../index.html";
-	var CON_STATIC_URL = "http://localhost:8181/web/";
-	</script>
+	<link rel="shortcut icon" href="resources/img/ico/favicon.ico.png"/>
 </head>
 <body>
 
 <jsp:include page="header.jsp"/>
-
-
 
 <!-- container -->
 <div id="container">
@@ -51,6 +33,8 @@
 			<ul class="btn_tab">
 				<li class="C0102"><a href="prdt_list?prdt_tp=01">프리미엄</a></li>
 				<li class="C0104"><a href="prdt_list?prdt_tp=02">클래식</a></li>
+			</ul>
+		</div>				
 </c:if>				
 <c:if test="${prdt_tp == '03' || prdt_tp == '04' }">
 		<div class="sub_title">
@@ -63,8 +47,9 @@
 			<ul class="btn_tab">
 				<li class="C0102"><a href="prdt_list?prdt_tp=03">사이드디시</a></li>
 				<li class="C0104"><a href="prdt_list?prdt_tp=04">음료</a></li>
+			</ul>
+		</div>
 </c:if>				
-		</ul>
 			<div class="tab_content_wrap">
 				<div class="tab_content active">
 					<div class="lst_prd_type ">
@@ -73,16 +58,15 @@
 						<ul>
 						<c:if test="${listCnt%4 == 1 }"><li class="prd_list_rgt"></c:if>
 						<c:if test="${listCnt%4 != 1 }"><li class=""></c:if>
-							<a href="prdt_detail?prdt_cd=${dto.prdt_cd}">
+							<a href="prdt_detail?prdt_cd=${dto.prdt_cd}&prdt_tp=${prdt_tp}">
 								<div class="prd_img">
-										<div class="prd_img_view"><img src="resources/img/${dto.prdt_img}" alt="${dto.prdt_nm}"></div>
-									</div>
-									<div class="prd_info">
-										<div class="prd_title">${dto.prdt_nm}</div>
-									</div>
+									<div class="prd_img_view"><img src="resources/img/${dto.prdt_img}" alt="${dto.prdt_nm}"></div>
+								</div>
+								<div class="prd_info">
+									<div class="prd_title">${dto.prdt_nm}</div>
+								</div>
 							</a>
-							<div class="prd_price">${dto.prdt_sz}
-							</div>
+							<div class="prd_price">${dto.prdt_sz}</div>
 						</li>
 						<c:set  var="listCnt" value="${listCnt+1}" />
 						</c:forEach>

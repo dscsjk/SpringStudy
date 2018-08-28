@@ -18,7 +18,7 @@
 	</select>
 
 	<select id="getPrdtPriceDao" resultType="com.doxmo.web.dto.Dxm04">
-		SELECT price_num, prdt_cd, prdt_sz, price, to_char(price,'999,999,999') price_n, valid, crt_dt 
+		SELECT price_num, prdt_cd, prdt_sz, price, to_char(price,'999,999,999') price_v, valid, crt_dt 
 		FROM   TBL_DXM04 
 		WHERE  PRDT_CD = #{param1} 
 	</select>

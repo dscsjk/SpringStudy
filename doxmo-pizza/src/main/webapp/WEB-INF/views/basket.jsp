@@ -1,9 +1,19 @@
-<%@ page language='java' contentType='text/html; charset=UTF-8'
-    pageEncoding='UTF-8'%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@ taglib prefix='c' uri='http://java.sun.com/jsp/jstl/core'%>
-
-<!DOCTYPE html PUBLIC '-//W3C//DTD HTML 4.01 Transitional//EN' 'http://www.w3.org/TR/html4/loose.dtd'>
 <html>
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>도아니모피자</title>
+	<meta name="viewport" id="viewport" content="width=1119px, user-scalable=yes">
+	<link rel="shortcut icon" href="resources/img/ico/favicon.ico.png"/>
+	<link rel="stylesheet" type="text/css" href="resources/css/font.css">
+	<link rel="stylesheet" type="text/css" href="resources/css/layout.css?v1.0">
+	<link rel="shortcut icon" href="resources/img/ico/favicon.ico.png"/>
+</head>
+<body>
 <script type="text/javascript">
 	function goOrderCnt(sel){
 		f=sel.form;
@@ -12,21 +22,11 @@
 	}
 	
 	function goBasketDel(sel){
-		f=sel.form;
-		f.action="basket_del";
+		f=document.querySelector("#basketDelForm"+sel);
+		//console.log("#basketDelForm"+sel)
 		f.submit();
 	}
 </script>
-<head>
-	<meta charset="euc-kr">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>도아니모피자</title>
-	<meta name="viewport" id="viewport" content="width=1119px, user-scalable=yes">
-	<link rel="shortcut icon" href="https://cdn.dominos.co.kr/renewal2016/ko/w/img/favicon.ico"/>
-	<link rel="stylesheet" type="text/css" href="/resources/css/font.css">
-	<link rel="stylesheet" type="text/css" href="https://cdn.dominos.co.kr/renewal2016/ko/w/css/layout.css?v1.0">
-</head>
-<body>
 
 <jsp:include page="header.jsp"/>
 
@@ -89,17 +89,15 @@
 										<td>
 											<div class="prd_info_view">
 												<div class="prd_img">
-													<img src="resources/img/${dto.prdt_img}.jpg" alt="${dto.prdt_nm}" />
+													<img src="resources/img/${dto.prdt_img}" alt="${dto.prdt_nm}" />
 																</div>
 												<div class="prd_info">
 													<div class="prd_name">
-														${dto.prdt_nm}</div>
-													<div class="prd_kinds">
-													${dto.prdt_sz}</span></div>
+														${dto.prdt_nm} &nbsp ${dto.prdt_sz}</div>
 												</div>
 											</div>
 										</td>
-										<td>${dto.price} 원</td>
+										<td>${dto.price_v} 원</td>
 										<td>
 
 										<div class="sel_box">
@@ -119,14 +117,14 @@
 	<option value="9" <c:if test="${dto.order_cnt eq 9 }">selected="selected"</c:if> >9 </option>
 													    </select>	
 </form>
-<form name="basketDelForm${index}" action="basket_del" method="post">
+<form id="basketDelForm${index}" action="basket_del" method="post">
 <input type="hidden" name="prdt_cd" value="${dto.prdt_cd}">
 <input type="hidden" name="prdt_sz" value="${dto.prdt_sz}">
 </form>													    										
 										</div>
 
 										</td>
-										<td><a href="#" onclick="document.basketDelForm${index}.submit();" class="btn"><span class="btn_txt">삭제</span></a></td>
+										<td><a href="#" id="deltest" onclick="goBasketDel(${index})" class="btn"><span class="btn_txt">삭제</span></a></td>
 									</tr>
 </c:forEach>									
 								</tbody>
@@ -152,7 +150,7 @@
 					<div class="cart_total_wrap">
 						<div class="btn_wrap">
 							<a href="prdt_list" class="btn btn_mdle btn_basic"><span class="btn_txt">제품 추가 +</span></a>
-							<a href="order_view;" class="btn btn_mdle btn_red btn_basic"><span class="btn_txt">주문하시겠어요?</span></a>
+							<a href="order_view" class="btn btn_mdle btn_red btn_basic"><span class="btn_txt">주문하시겠어요?</span></a>
 								</div>
 					</div>
 				</div>

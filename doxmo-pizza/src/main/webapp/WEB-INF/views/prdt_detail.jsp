@@ -8,9 +8,10 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>도아니모피자</title>
 	<meta name="viewport" id="viewport" content="width=1119px, user-scalable=yes">
-	<link rel="shortcut icon" href="https://cdn.dominos.co.kr/renewal2016/ko/w/img/favicon.ico"/>
-	<link rel="stylesheet" type="text/css" href="/resources/css/font.css">
-	<link rel="stylesheet" type="text/css" href="https://cdn.dominos.co.kr/renewal2016/ko/w/css/layout.css?v1.0">
+	<link rel="shortcut icon" href="resources/img/ico/favicon.ico.png"/>
+	<link rel="stylesheet" type="text/css" href="resources/css/font.css">
+	<link rel="stylesheet" type="text/css" href="resources/css/layout.css?v1.0">
+	<link rel="shortcut icon" href="resources/img/ico/favicon.ico.png"/>
 </head>
 <body>
 <jsp:include page="header.jsp"/>
@@ -22,13 +23,20 @@
             <div id="content" class="product">
         
                 <!-- sub_title -->
-                <div class="sub_title">
-                    <div class="sub_title_wrap">
-                        <h2>피자</h2>
-                    </div>
-                </div>
-                <!-- //sub_title -->
-        
+<c:if test="${prdt_tp == '01' || prdt_tp == '02' }">
+		<div class="sub_title">
+			<div class="sub_title_wrap">
+				<h2>피자</h2>
+			</div>
+		</div>
+</c:if>				
+<c:if test="${prdt_tp == '03' || prdt_tp == '04' }">
+		<div class="sub_title">
+			<div class="sub_title_wrap">
+				<h2>사이드디시</h2>
+			</div>
+		</div>
+</c:if>				
                 <!-- prd_detail -->
                 <div class="prd_detail">
                     <form name="basketform" action="basket" method="post">
@@ -66,7 +74,10 @@
                                                 <select id="size" class="opt_size" title="사이즈" name="prdt_sz">
 
                                                         <c:forEach items='${prdtPrice}' var='pto'>
-                                                                <option value="${pto.prdt_sz}:${pto.price}">${pto.prdt_sz} : ${pto.price_n} </option>
+                                                                <option value="${pto.prdt_sz}:${pto.price}:${pto.price_v}">
+                                                                <c:if test="${pto.prdt_sz != 'L' && pto.prdt_sz != 'M' }">${pto.price_v}</c:if>
+                                                                <c:if test="${pto.prdt_sz == 'L' || pto.prdt_sz == 'M' }">${pto.prdt_sz} : ${pto.price_v} </c:if>
+                                                                </option>
                                                         </c:forEach>
 
                                                 </select>

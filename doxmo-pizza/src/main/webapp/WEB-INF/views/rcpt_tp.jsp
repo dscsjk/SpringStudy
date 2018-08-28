@@ -9,9 +9,10 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>도아니모피자</title>
 	<meta name="viewport" id="viewport" content="width=1119px, user-scalable=yes">
-	<link rel="shortcut icon" href="https://cdn.dominos.co.kr/renewal2016/ko/w/img/favicon.ico"/>
-	<link rel="stylesheet" type="text/css" href="/resources/css/font.css">
-	<link rel="stylesheet" type="text/css" href="https://cdn.dominos.co.kr/renewal2016/ko/w/css/layout.css?v1.0">
+	<link rel="shortcut icon" href="https://resources/img/ico/favicon.ico.png"/>
+	<link rel="stylesheet" type="text/css" href="resources/css/font.css">
+	<link rel="stylesheet" type="text/css" href="resources/css/layout.css?v1.0">
+	<link rel="shortcut icon" href="resources/img/ico/favicon.ico.png"/>
 </head>
 <body>
 <jsp:include page="header.jsp"/>
@@ -32,8 +33,9 @@
 			<div class="order_section order_way">
 				<!-- 주문방법 -->
 				<div class="tit_order">
-					<strong>주문방법<em>(주문방법/배달주소 선택 후 장바구니 담기가 가능합니다.)</em></strong>
+					<strong>주문방법<em>(주문매장 선택 후 장바구니 담기가 가능합니다.)</em></strong>
 				</div>
+				<!-- 
 				<div class="order_way_sel">
 					<div class="form_group">
 						<div class="form_field">
@@ -54,8 +56,11 @@
 						</div>
 					</div>
 				</div>
+				-->
+				
 				<!-- // 주문방법 -->
 				<!-- 배달주소 -->
+				<!-- 
 				<div class="order_adr_wrap" id="addr_O" style="display:none;">
 					<div class="order_adr_chk">
 						<strong>배달주소</strong>
@@ -78,6 +83,8 @@
 							</table>
 						</div>
 				</div>
+				 -->
+
 				<!-- // 배달주소 -->
 				<!-- 포장주소 -->
 				<div class="order_addr" id="addr_W" style="">
@@ -109,6 +116,7 @@
 <input type="hidden" name="prdt_nm" value="${Order.prdt_nm}" >
 <input type="hidden" name="prdt_sz" value="${Order.prdt_sz}" >
 <input type="hidden" name="price" value="${Order.price}" >
+<input type="hidden" name="price_v" value="${Order.price_v}" >
 <input type="hidden" name="order_cnt" value="${Order.order_cnt}" >
 <input type="hidden" name="rcpt_tp" value="02" >
 <input type="hidden" name="rcpt_addr" value="${dto.store_addr}" >

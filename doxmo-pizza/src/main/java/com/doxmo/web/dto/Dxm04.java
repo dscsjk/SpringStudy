@@ -5,14 +5,8 @@ public class Dxm04 {
 	private String prdt_sz;
 	private String crt_dt;
 	private int price;
-	private String price_n;
+	private String price_v;
 	
-	public String getPrice_n() {
-		return price_n;
-	}
-	public void setPrice_n(String price_n) {
-		this.price_n = price_n;
-	}
 	private String valid;
 
 	public String getPrdt_cd() {
@@ -38,6 +32,12 @@ public class Dxm04 {
 	}
 	public void setPrice(int price) {
 		this.price = price;
+	}
+	public String getPrice_v() {
+		return price_v;
+	}
+	public void setPrice_n(String price_v) {
+		this.price_v = price_v;
 	}
 	public String getValid() {
 		return valid;

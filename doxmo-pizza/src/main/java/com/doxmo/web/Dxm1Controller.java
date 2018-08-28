@@ -1,6 +1,7 @@
 package com.doxmo.web;
 
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,10 +27,9 @@ import com.doxmo.web.dto.User;
 
 @Controller
 public class Dxm1Controller {
-
+	// session으로 DB Connect
 	@Autowired
 	private SqlSession sqlSession;
-	
 	// 트랜잭션 처리
 	@Autowired
 	private DataSourceTransactionManager transactionManager;
@@ -50,13 +50,12 @@ public class Dxm1Controller {
 			order.setPrdt_cd(request.getParameter("prdt_cd"));
 			order.setPrdt_img(request.getParameter("prdt_img"));
 			order.setPrdt_nm(request.getParameter("prdt_nm"));
-			
-			System.out.println("한글깨짐확인"+request.getParameter("prdt_nm"));
-			
-			
 			String prdt_sz=request.getParameter("prdt_sz");
-			order.setPrdt_sz(prdt_sz.substring(0, 1));
-			order.setPrice(Integer.parseInt(prdt_sz.substring(2)));
+			order.setPrdt_sz(prdt_sz.split(":")[0]);
+			order.setPrice(Integer.parseInt(prdt_sz.split(":")[1]));
+			order.setPrice_v(prdt_sz.split(":")[2]);
+			System.out.println("갸격"+order.getPrice_v());
+
 			order.setOrder_cnt(Integer.parseInt(request.getParameter("order_cnt")));
 			
 			model.addAttribute("Order", order);
@@ -84,17 +83,22 @@ public class Dxm1Controller {
 		order.setPrdt_cd(request.getParameter("prdt_cd"));
 		order.setPrdt_img(request.getParameter("prdt_img"));
 		order.setPrdt_nm(request.getParameter("prdt_nm"));
-
-		System.out.println("한글깨짐확인"+request.getParameter("prdt_nm"));
 		String prdt_sz=request.getParameter("prdt_sz");
 		
-		order.setPrdt_sz(prdt_sz.substring(0, 1));
-		order.setPrice(Integer.parseInt(prdt_sz.substring(2)));
+		order.setPrdt_sz(prdt_sz.split(":")[0]);
+		order.setPrice(Integer.parseInt(prdt_sz.split(":")[1]));
+		order.setPrice_t(Integer.parseInt(prdt_sz.split(":")[1]));
+		order.setPrice_v(prdt_sz.split(":")[2]);
+		order.setPrice_tv(prdt_sz.split(":")[2]);
+		System.out.println("갸격"+order.getPrice_v());
+		
 		order.setOrder_cnt(Integer.parseInt(request.getParameter("order_cnt")));
 		System.out.println(order.getOrder_cnt());
 		
 		HttpSession session = request.getSession();
 		ArrayList<OrderPrdt> orderList = new ArrayList<OrderPrdt>();
+		
+		@SuppressWarnings("unchecked")
 		ArrayList<OrderPrdt> sessionOrderList = (ArrayList<OrderPrdt>) session.getAttribute("OrderList");
 		
 		if (sessionOrderList==null) {
@@ -108,6 +112,18 @@ public class Dxm1Controller {
 
 					int cnt = isOrder.getOrder_cnt()+order.getOrder_cnt();
 					isOrder.setOrder_cnt(cnt);
+					System.out.println("단위가격"+isOrder.getPrice());
+					System.out.println("주문건수"+cnt);
+										
+					
+					isOrder.setPrice_t( isOrder.getPrice()*cnt );
+					
+					
+					DecimalFormat df = new DecimalFormat("#,##0");
+					isOrder.setPrice_tv(df.format(isOrder.getPrice_t()));
+					System.out.println("가격표시"+isOrder.getPrice_t());
+					System.out.println("가격표시"+df.format(isOrder.getPrice_t()));
+					System.out.println(isOrder.getPrice_tv());
 					dupCnt++;
 				}
 				orderList.add(isOrder);
@@ -123,11 +139,8 @@ public class Dxm1Controller {
 		session.setAttribute("OrderList", orderList);
 	}
 
-	
-	
-	
-	
 	@RequestMapping("/basket_del")
+	@SuppressWarnings("unchecked")
 	public String basket_del( HttpServletRequest request, Model model) {
 		System.out.println("/basket_del");
 		
@@ -149,6 +162,7 @@ public class Dxm1Controller {
 	}	
 
 	@RequestMapping("/basket_add")
+	@SuppressWarnings("unchecked")
 	public String basket_add( HttpServletRequest request, Model model) {
 		System.out.println("/basket_add");
 		
@@ -171,6 +185,17 @@ public class Dxm1Controller {
 			if (isOrder.getPrdt_cd().equals(order.getPrdt_cd())
 			 && isOrder.getPrdt_sz().equals(order.getPrdt_sz())) {
 					isOrder.setOrder_cnt(order.getOrder_cnt());
+					
+					System.out.println("단위가격"+isOrder.getPrice());
+					System.out.println("주문건수"+order.getOrder_cnt());
+					isOrder.setPrice_t( isOrder.getPrice()*order.getOrder_cnt() );
+					
+					DecimalFormat df = new DecimalFormat("#,##0");
+					isOrder.setPrice_tv(df.format(isOrder.getPrice_t()));
+					System.out.println("가격표시"+isOrder.getPrice_t());
+					System.out.println("가격표시"+df.format(isOrder.getPrice_t()));
+					System.out.println(isOrder.getPrice_tv());
+					
 					dupCnt++;
 			}
 			orderList.add(isOrder);
@@ -183,9 +208,6 @@ public class Dxm1Controller {
 		return "redirect:basket_view";
 	}	
 
-	
-	
-	
 	@RequestMapping("/basket_view")
 	public String basket_view( HttpServletRequest request, Model model) {
 		System.out.println("/basket_view");
@@ -199,62 +221,17 @@ public class Dxm1Controller {
 		if (user != null)
 			model.addAttribute("User", user);
 
+		@SuppressWarnings("unchecked")
 		ArrayList<OrderPrdt> orderList = (ArrayList<OrderPrdt>) session.getAttribute("OrderList");
 		if (orderList != null)
 			model.addAttribute("OrderList", orderList);
 		return "basket";
 	}
 
-	@RequestMapping("/rcpt_tp_choice")
-	public String rcpt_tp_choice( HttpServletRequest request, Model model) {
-		System.out.println("/rcpt_tp_choice");
-//		model.addAttribute("request", request);
-		
-		OrderPrdt order = new OrderPrdt();
-		RcptTp rcptTp = new RcptTp();
-		
-		rcptTp.setRcpt_tp(request.getParameter("rcpt_tp"));
-		rcptTp.setRcpt_addr(request.getParameter("rcpt_addr"));
-		rcptTp.setRcpt_cd(request.getParameter("rcpt_cd"));
-		rcptTp.setRcpt_nm(request.getParameter("rcpt_nm"));
-		rcptTp.setRcpt_tel(request.getParameter("rcpt_tel"));
-		
-		order.setPrdt_cd(request.getParameter("prdt_cd"));
-		order.setPrdt_img(request.getParameter("prdt_img"));
-		order.setPrdt_nm(request.getParameter("prdt_nm"));
-		order.setPrdt_sz(request.getParameter("prdt_sz"));
-		order.setPrice(Integer.parseInt(request.getParameter("price")));
-		order.setOrder_cnt(Integer.parseInt(request.getParameter("order_cnt")));
-		
-		HttpSession session = request.getSession();
-		session.setAttribute("RcptTp", rcptTp);
-		
-		ArrayList<OrderPrdt> orderList = (ArrayList<OrderPrdt>) session.getAttribute("OrderList");
-		
-		if (orderList==null) {
-			orderList = new ArrayList<OrderPrdt>(); 
-			orderList.add(order);
-		} else {
-			int i=0;
-			// 동일제품코드와 사이즈가 있으면 주문갯수만 더해서 리스트를 업데이트한다.
-			for (OrderPrdt isOrder : orderList) {
-				if (isOrder.getPrdt_cd().equals(order.getPrdt_cd())
-				 && isOrder.getPrdt_sz().equals(order.getPrdt_sz())) {
-					int cnt = isOrder.getOrder_cnt()+order.getOrder_cnt();
-					isOrder.setOrder_cnt(cnt);
-					orderList.remove(i);
-					orderList.add(i,isOrder);
-				}
-				i++;
-			}
-		}
-		session.setAttribute("OrderList", orderList);
-		
-		return "redirect:prdt_list";
-	}
-
 	@RequestMapping("/prdt_list")
 	public String prdt_list(HttpServletRequest request, Model model) {
+		System.out.println("/prdt_list");
+		
 		String prdt_tp = null;
 		prdt_tp = request.getParameter("prdt_tp");
 		if ( prdt_tp == null) prdt_tp = "01";
@@ -275,6 +252,7 @@ public class Dxm1Controller {
 		model.addAttribute("prdtPrice", dxmDao.getPrdtPriceDao(prdt_cd));
 		model.addAttribute("prdtDetail", dxmDao.getPrdtDetailDao(prdt_cd));
 		model.addAttribute("prdtNutri", dxmDao.getNutrientListDao(prdt_cd));
+		model.addAttribute("prdt_tp", request.getParameter("prdt_tp"));
 		return "prdt_detail";
 	}
 	
@@ -282,8 +260,6 @@ public class Dxm1Controller {
 	public String order_view( HttpServletRequest request, Model model) {
 		System.out.println("/order_view");
 
-		OrderPrdt order = new OrderPrdt();
-		
 		HttpSession session = request.getSession();
 		RcptTp rcptTp = (RcptTp) session.getAttribute("RcptTp");
 		if (rcptTp != null) 
@@ -293,6 +269,7 @@ public class Dxm1Controller {
 		if (user != null)
 			model.addAttribute("User", user);
 
+		@SuppressWarnings("unchecked")
 		ArrayList<OrderPrdt> orderList = (ArrayList<OrderPrdt>) session.getAttribute("OrderList");
 		if (orderList != null)
 			model.addAttribute("OrderList", orderList);
@@ -310,6 +287,7 @@ public class Dxm1Controller {
 		// 세션 정보 추출
 		RcptTp sRcptTp = (RcptTp) session.getAttribute("RcptTp");
 		User sUser = (User) session.getAttribute("User");
+		@SuppressWarnings("unchecked")
 		ArrayList<OrderPrdt> sOrderList = (ArrayList<OrderPrdt>) session.getAttribute("OrderList");
 		
 		// 주문서 정보 작성
@@ -344,11 +322,13 @@ public class Dxm1Controller {
 			orderPrdt.setOrder_no(String.valueOf(order_no));
 			orderPrdt.setPrdt_cd(sOrderPrdt.getPrdt_cd());
 			orderPrdt.setPrdt_sz(sOrderPrdt.getPrdt_sz());
+			if (orderPrdt.getPrdt_sz().compareTo("")==0) 
+				orderPrdt.setPrdt_sz(" ");
 			orderPrdt.setOrder_cnt(sOrderPrdt.getOrder_cnt());
-//			System.out.println(orderPrdt.getOrder_no());
-//			System.out.println(orderPrdt.getPrdt_cd());
-//			System.out.println(orderPrdt.getPrdt_sz());
-//			System.out.println(orderPrdt.getOrder_cnt());
+			System.out.println(orderPrdt.getOrder_no());
+			System.out.println(orderPrdt.getPrdt_cd());
+			System.out.println("["+orderPrdt.getPrdt_sz()+"]");
+			System.out.println(orderPrdt.getOrder_cnt());
 
 			prdtList.add(orderPrdt);
 
@@ -381,7 +361,6 @@ public class Dxm1Controller {
 		return "order_end";
 	}
 
-	
 	@RequestMapping("/order_list")
 	public String order_list( HttpServletRequest request, Model model) {
 		System.out.println("/order_list");
@@ -393,8 +372,75 @@ public class Dxm1Controller {
 		return "order_list";
 	}
 
+	@RequestMapping("/rcpt_tp_choice")
+	public String rcpt_tp_choice( HttpServletRequest request, Model model) {
+		System.out.println("/rcpt_tp_choice");
+		
+		OrderPrdt order = new OrderPrdt();
+		RcptTp rcptTp = new RcptTp();
+		//배달정보 등록
+		rcptTp.setRcpt_tp(request.getParameter("rcpt_tp"));
+		rcptTp.setRcpt_addr(request.getParameter("rcpt_addr"));
+		rcptTp.setRcpt_cd(request.getParameter("rcpt_cd"));
+		rcptTp.setRcpt_nm(request.getParameter("rcpt_nm"));
+		rcptTp.setRcpt_tel(request.getParameter("rcpt_tel"));
+		//주문제품정보 등록 
+		order.setPrdt_cd(request.getParameter("prdt_cd"));
+		order.setPrdt_img(request.getParameter("prdt_img"));
+		order.setPrdt_nm(request.getParameter("prdt_nm"));
+		order.setPrdt_sz(request.getParameter("prdt_sz"));
+		order.setPrice(Integer.parseInt(request.getParameter("price")));
+		order.setPrice_v(request.getParameter("price_v"));
+		order.setOrder_cnt(Integer.parseInt(request.getParameter("order_cnt")));
+		
+		HttpSession session = request.getSession();
+		session.setAttribute("RcptTp", rcptTp);
+		
+		@SuppressWarnings("unchecked")
+		ArrayList<OrderPrdt> orderList = (ArrayList<OrderPrdt>) session.getAttribute("OrderList");
+		
+		if (orderList==null) {
+			orderList = new ArrayList<OrderPrdt>(); 
+			orderList.add(order);
+		} else {
+			int i=0;
+			// 동일제품코드와 사이즈가 있으면 주문갯수만 더해서 리스트를 업데이트한다.
+			for (OrderPrdt isOrder : orderList) {
+				if (isOrder.getPrdt_cd().equals(order.getPrdt_cd())
+				 && isOrder.getPrdt_sz().equals(order.getPrdt_sz())) {
+					int cnt = isOrder.getOrder_cnt()+order.getOrder_cnt();
+					isOrder.setOrder_cnt(cnt);
+					orderList.remove(i);
+					orderList.add(i,isOrder);
+				}
+				i++;
+			}
+		}
+		session.setAttribute("OrderList", orderList);
+		
+		return "redirect:prdt_list";
+	}
 
-	
+	public void getStoreList(HttpServletRequest request, Model model) {
+		System.out.println("/getStoreList");
+		
+		OrderPrdt order = new OrderPrdt();
+		order.setPrdt_cd(request.getParameter("prdt_cd"));
+		order.setPrdt_img(request.getParameter("prdt_img"));
+		order.setPrdt_nm(request.getParameter("prdt_nm"));
+		
+		String prdt_sz=request.getParameter("prdt_sz");
+		order.setPrdt_sz(prdt_sz.split(":")[0]);
+		order.setPrice(Integer.parseInt(prdt_sz.split(":")[1]));
+		order.setPrice_v(prdt_sz.split(":")[2]);
+		System.out.println("갸격"+order.getPrice_v());
+		
+		order.setOrder_cnt(Integer.parseInt(request.getParameter("order_cnt")));
+		model.addAttribute("Order", order);
+		
+		DxmDao dxmDao = sqlSession.getMapper(DxmDao.class);
+		model.addAttribute("RcptTpList", dxmDao.getStoreListDao());
+	}
 
 	@RequestMapping("/logout")
 	public String logout(HttpServletRequest request, Model model) {
@@ -409,7 +455,6 @@ public class Dxm1Controller {
 		return "logout";
 			
 	}
-
 	
 	@RequestMapping("/login_view")
 	public String login_view( ) {
@@ -454,7 +499,6 @@ public class Dxm1Controller {
 		return true;
 	}
 	
-	
 	@RequestMapping("/login_basket")
 	public String login_basket(HttpServletRequest request, Model model) {
 		System.out.println("/login_basket");
@@ -468,23 +512,6 @@ public class Dxm1Controller {
 				getStoreList(request, model);
 				return "rcpt_tp";
 		} 
-	}
-
-	public void getStoreList(HttpServletRequest request, Model model) {
-		System.out.println("/getStoreList");
-		
-		OrderPrdt order = new OrderPrdt();
-		order.setPrdt_cd(request.getParameter("prdt_cd"));
-		order.setPrdt_img(request.getParameter("prdt_img"));
-		order.setPrdt_nm(request.getParameter("prdt_nm"));
-		String prdt_sz=request.getParameter("prdt_sz");
-		order.setPrdt_sz(prdt_sz.substring(0, 1));
-		order.setPrice(Integer.parseInt(prdt_sz.substring(2)));
-		order.setOrder_cnt(Integer.parseInt(request.getParameter("order_cnt")));
-		model.addAttribute("Order", order);
-		
-		DxmDao dxmDao = sqlSession.getMapper(DxmDao.class);
-		model.addAttribute("RcptTpList", dxmDao.getStoreListDao());
 	}
 
 }

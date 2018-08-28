@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 		<div id="header">
 			<div class="header_top">
 				<div class="logo_area">
@@ -9,11 +8,16 @@
 							<li><a href="order_list">주문조회 <span id="gnbOrderCnt"></span></a></li>
 						</ul>
 					</div>
-					<h1 class="logo"><a href=""><img src="resources/img/logo.png" alt="Doanimo"></a></h1>
+					<h1 class="logo"><a href="./"><img src="resources/img/logo.png" alt="Doanimo"></a></h1>
 					<div class="util_right">
 						<ul class="util_menu">
-						<li><a href="/global/login">로그아웃</a></li>
-							<li><a href="/mypage/myLevel">나의정보</a></li>
+						<li>
+<%						if ( session.getAttribute("User") == null ) { %>
+						<a href="login_view">로그인</a>
+<%                      } else { %>						
+						<a href="logout">로그아웃</a>
+<%                      } %>		
+        				</li>
 							</ul>
 						<a href="basket_view" class="btn_ico btn_cart"><span class="cart_count"></span>장바구니</a>
 					</div>
@@ -58,6 +62,7 @@
 								<li><a href="prdt_list?prdt_tp=04">음료</a></li>
 							</ul>
 						</li>
+					</ul>	
 				</div>
 			</div>
 		</div> 

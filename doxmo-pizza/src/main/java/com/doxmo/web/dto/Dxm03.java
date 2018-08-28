@@ -1,7 +1,5 @@
 package com.doxmo.web.dto;
 
-import java.util.ArrayList;
-
 public class Dxm03 {
 	private String prdt_cd;
 	private String prdt_nm; 
@@ -13,26 +11,26 @@ public class Dxm03 {
 	private String prdt_sz;
 	
 	
-	public Dxm03() { }
-
-	public Dxm03(String prdt_cd,
-					String prdt_nm, 
-					String prdt_tp,
-					String prdt_img,
-					String valid,
-					String upd_dt,
-					String crt_dt,
-					String prdt_sz) {
-		this.prdt_cd = prdt_cd;
-		this.prdt_nm = prdt_nm;
-		this.prdt_tp = prdt_tp;
-		this.prdt_img = prdt_img;
-		this.valid = valid;
-		this.upd_dt = upd_dt;
-		this.crt_dt = crt_dt;
-		this.prdt_sz = prdt_sz;
-	}
-
+//	public Dxm03() { }
+//
+//	public Dxm03(String prdt_cd,
+//					String prdt_nm, 
+//					String prdt_tp,
+//					String prdt_img,
+//					String valid,
+//					String upd_dt,
+//					String crt_dt,
+//					String prdt_sz) {
+//		this.prdt_cd = prdt_cd;
+//		this.prdt_nm = prdt_nm;
+//		this.prdt_tp = prdt_tp;
+//		this.prdt_img = prdt_img;
+//		this.valid = valid;
+//		this.upd_dt = upd_dt;
+//		this.crt_dt = crt_dt;
+//		this.prdt_sz = prdt_sz;
+//	}
+//
 	public String getPrdt_cd() {
 		return prdt_cd;
 	}

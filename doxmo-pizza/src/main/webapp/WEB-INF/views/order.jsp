@@ -1,10 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@ taglib prefix='c' uri='http://java.sun.com/jsp/jstl/core'%>
 <html>
-
-
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>도아니모피자</title>
+	<meta name="viewport" id="viewport" content="width=1119px, user-scalable=yes">
+	<link rel="shortcut icon" href="resources/img/ico/favicon.ico.png"/>
+	<link rel="stylesheet" type="text/css" href="resources/css/font.css">
+	<link rel="stylesheet" type="text/css" href="resources/css/layout.css?v1.0">
+	<link rel="shortcut icon" href="resources/img/ico/favicon.ico.png"/>
 <script type="text/javascript">
 	function goOrderCnt(sel){
 		f=sel.form;
@@ -18,17 +25,8 @@
 		f.submit();
 	}
 </script>
-
-
-<head>
-	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>도아니모피자</title>
-	<meta name="viewport" id="viewport" content="width=1119px, user-scalable=yes">
-	<link rel="shortcut icon" href="https://cdn.dominos.co.kr/renewal2016/ko/w/img/favicon.ico"/>
-	<link rel="stylesheet" type="text/css" href="/resources/css/font.css">
-	<link rel="stylesheet" type="text/css" href="https://cdn.dominos.co.kr/renewal2016/ko/w/css/layout.css?v1.0">
 </head>
+
 <body>
 <jsp:include page="header.jsp"/>
 
@@ -95,14 +93,12 @@
 									
 										<tr>
 												<td class="txt_align_lft" id="goods_name">
-										<!-- 		<span>블랙타이거 슈림프오리지널 L</span>   -->		
 													<span>${dto.prdt_nm} ${dto.prdt_sz}</span>
-													<!-- 	<span style="display:none;" id="goods_name_brief">블랙타이거 슈림프오리지널 L (1)</span>   -->	
 													<span style="display:none;" id="goods_name_brief">${dto.prdt_nm} ${dto.prdt_sz}</span>
 												</td>
 												<td>${dto.order_cnt}</td>
-												<td><c:set var="tPrice" value="${dto.price*dto.order_cnt}"/>${tPrice}</td>
-												<c:set var="totPrice" value="${totPrice+tPrice}"/>
+												<td>${dto.price_tv}</td>
+												<c:set var="totPrice" value="${totPrice+dto.price_t}"/>
 											</tr>
 </c:forEach>											
 										</tbody>
@@ -140,7 +136,7 @@
 									</div>
 								</li>
 								<li class="form_name">
-									<label for="customerName">이름</label>
+									<label for="customerName">전화번호</label>
 									<div class="form_group">
 										<div class="form_field">
 											<div class="form_item">
@@ -158,7 +154,7 @@
 								<dt>기타 요청 사항</dt>
 								<dd>
 									<div class="form_item">
-										<span class="i_label" style="position: absolute;">최대 25자까지 입력가능</span>
+										<span class="i_label" style="position: absolute;"></span>
 										<textarea id="more_req" name="memo" onkeyup="checkByte(this, 50)" class="i_text" title="기타요청사항"></textarea>
 									</div>
 								</dd>
