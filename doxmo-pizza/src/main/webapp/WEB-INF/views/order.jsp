@@ -2,6 +2,8 @@
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@ taglib prefix='c' uri='http://java.sun.com/jsp/jstl/core'%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
 <html>
 <head>
 	<meta charset="UTF-8">
@@ -67,7 +69,7 @@
 				<div class="order_section order_prd">
 					<div class="tit_order btn_tit">
 						<strong>주문제품</strong>
-						<a href="/goods/list?dsp_ctgr=C0101" class="btn"><span class="btn_txt">메뉴 변경하기</span></a>
+						<a href="prdt_list" class="btn"><span class="btn_txt">메뉴 변경하기</span></a>
 					</div>
 					<div class="order_prd_info">
 						<div id="goodsBrief">
@@ -97,7 +99,7 @@
 													<span style="display:none;" id="goods_name_brief">${dto.prdt_nm} ${dto.prdt_sz}</span>
 												</td>
 												<td>${dto.order_cnt}</td>
-												<td>${dto.price_tv}</td>
+												<td><fmt:formatNumber value="${dto.price_t}" pattern="###,###,###"/></td>
 												<c:set var="totPrice" value="${totPrice+dto.price_t}"/>
 											</tr>
 </c:forEach>											
@@ -195,7 +197,8 @@
 				<div class="order_total_info">
 					<dl class="price_total">
 						<dt>총 주문 금액</dt>
-						<dd>${totPrice}</dd>
+						<dd><fmt:formatNumber value="${totPrice}" pattern="###,###,###"/>
+						</dd>
 					</dl>
 				</div>
 			</div>

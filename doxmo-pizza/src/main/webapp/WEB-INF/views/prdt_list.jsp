@@ -56,6 +56,8 @@
 					  <c:set  var="listCnt" value="1" />  
 					  <c:forEach items='${dxm03}' var='dto'>					
 						<ul>
+						
+						
 						<c:if test="${listCnt%4 == 1 }"><li class="prd_list_rgt"></c:if>
 						<c:if test="${listCnt%4 != 1 }"><li class=""></c:if>
 							<a href="prdt_detail?prdt_cd=${dto.prdt_cd}&prdt_tp=${prdt_tp}">
@@ -66,10 +68,18 @@
 									<div class="prd_title">${dto.prdt_nm}</div>
 								</div>
 							</a>
-							<div class="prd_price">${dto.prdt_sz}</div>
+							<div class="prd_price">${dto.prdt_sz}
+								<div class="prd_option">
+										<a href="javascript:addGoods('RDK005L1');" class="btn_ico btn_cart2">장바구니</a>
+									</div>
+							</div>
 						</li>
 						<c:set  var="listCnt" value="${listCnt+1}" />
 						</c:forEach>
+						
+						
+						
+						
 						</ul>
 					</div>
 

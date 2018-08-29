@@ -21,7 +21,8 @@ public interface DxmDao {
 	public ArrayList<Dxm04> getPrdtPriceDao(String prdt_cd);
 	public Dxm05 getPrdtDetailDao(String prdt_cd);
 	public ArrayList<Dxm15> getNutrientListDao(String prdt_cd);
-	public ArrayList<OrderList> getOrderListDao(String u_id);
+	public ArrayList<OrderList> getOrderListDao(String u_id, int StartPage, int EndPage);
+	public int getTotalOrderCountDao(String u_id);
 	public Dxm01 getUserInfoDao(String u_id, String pswd, int tp);
 	public ArrayList<Dxm06> getStoreListDao();
 	public void setOrderDao(Dxm07 order);

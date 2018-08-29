@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@ taglib prefix='c' uri='http://java.sun.com/jsp/jstl/core'%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <html>
 <head>
 	<meta charset="UTF-8">
@@ -26,6 +27,15 @@
 		//console.log("#basketDelForm"+sel)
 		f.submit();
 	}
+	
+	function goBasketOrder(cnt){
+		if (cnt == 0) {
+			alert("장바구니가 비어 있습니다.");
+		} else {
+			orderForm.submit();
+		}
+	}
+
 </script>
 
 <jsp:include page="header.jsp"/>
@@ -84,6 +94,7 @@
 								<tbody>
 <c:set var="index" value="0" />
 <c:forEach items="${OrderList}" var="dto">
+<c:set  var="index" value="${index+1}" />
 								
 								<tr>
 										<td>
@@ -97,7 +108,7 @@
 												</div>
 											</div>
 										</td>
-										<td>${dto.price_v} 원</td>
+										<td><fmt:formatNumber value="${dto.price}" pattern="###,###,###"/> 원</td>
 										<td>
 
 										<div class="sel_box">
@@ -126,6 +137,7 @@
 										</td>
 										<td><a href="#" id="deltest" onclick="goBasketDel(${index})" class="btn"><span class="btn_txt">삭제</span></a></td>
 									</tr>
+									
 </c:forEach>									
 								</tbody>
 							</table>
@@ -150,7 +162,7 @@
 					<div class="cart_total_wrap">
 						<div class="btn_wrap">
 							<a href="prdt_list" class="btn btn_mdle btn_basic"><span class="btn_txt">제품 추가 +</span></a>
-							<a href="order_view" class="btn btn_mdle btn_red btn_basic"><span class="btn_txt">주문하시겠어요?</span></a>
+							<a href="#" onclick="goBasketOrder(${index})"  class="btn btn_mdle btn_red btn_basic"><span class="btn_txt">주문하시겠어요?</span></a>
 								</div>
 					</div>
 				</div>
@@ -159,8 +171,7 @@
 	<!-- //content -->
 </div>
 <!-- //container -->
+<form name="orderForm" action="order_view" ></form>
 </body>
-
-
 </html>
 

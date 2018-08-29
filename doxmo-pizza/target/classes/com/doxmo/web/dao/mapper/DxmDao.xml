@@ -45,14 +45,21 @@
 		and A.prdt_cd = #{param1} 
 	</select>
 
-
 	<select id="getOrderListDao" resultType="com.doxmo.web.dto.OrderList">
-		SELECT crt_dt, rcpt_tp, order_no, order_prdt, tt_pay, store_nm, store_tel, order_st  
-		from v_order_list
-		where u_id= #{param1}  
-		order by order_no desc 
+		select crt_dt, rcpt_tp, order_no, order_prdt, tt_pay, store_nm, store_tel, order_st 
+		from (  select rownum as rid , crt_dt, rcpt_tp, order_no, order_prdt, tt_pay, store_nm, store_tel, order_st 
+      			from v_order_list
+      			where u_id = #{param1}
+      			order by crt_dt desc )
+		where rid between #{param2} and #{param3}
 	</select>
 	
+	<select id="getTotalOrderCountDao" resultType="int">
+		select count(*) 
+		from v_order_list
+      	where u_id = #{param1}
+	</select>
+
 	<!-- Dynamic sql -->
 	<select id="getUserInfoDao" resultType="com.doxmo.web.dto.Dxm01">
 		select * 

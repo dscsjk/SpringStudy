@@ -34,7 +34,7 @@
 <input type="hidden" name="prdt_cd" value="${Order.prdt_cd}" >
 <input type="hidden" name="prdt_img" value="${Order.prdt_img}" >
 <input type="hidden" name="prdt_nm" value="${Order.prdt_nm}" >
-<input type="hidden" name="prdt_sz" value="${Order.prdt_sz}:${Order.price}:${Order.price_v}" >
+<input type="hidden" name="prdt_sz" value="${Order.prdt_sz}:${Order.price}" >
 <input type="hidden" name="order_cnt" value="${Order.order_cnt}" >
 			
 				<fieldset>

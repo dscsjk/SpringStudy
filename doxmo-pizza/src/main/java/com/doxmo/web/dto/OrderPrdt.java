@@ -7,8 +7,6 @@ public class OrderPrdt {
 	private String prdt_sz; 
 	private int price; 
 	private int price_t; 
-	private String price_v; 
-	private String price_tv; 
 	private int order_cnt;
 	
 	public String getPrdt_cd() {
@@ -41,25 +39,12 @@ public class OrderPrdt {
 	public void setPrice(int price) {
 		this.price = price;
 	}
-	public String getPrice_v() {
-		return price_v;
-	}
-	public void setPrice_v(String price_v) {
-		this.price_v = price_v;
-	}
 	public int getPrice_t() {
 		return price_t;
 	}
 	public void setPrice_t(int price_t) {
 		this.price_t = price_t;
 	}
-	public String getPrice_tv() {
-		return price_tv;
-	}
-	public void setPrice_tv(String price_tv) {
-		this.price_tv = price_tv;
-	}
-
 	public int getOrder_cnt() {
 		return order_cnt;
 	}

@@ -53,8 +53,7 @@ public class Dxm1Controller {
 			String prdt_sz=request.getParameter("prdt_sz");
 			order.setPrdt_sz(prdt_sz.split(":")[0]);
 			order.setPrice(Integer.parseInt(prdt_sz.split(":")[1]));
-			order.setPrice_v(prdt_sz.split(":")[2]);
-			System.out.println("갸격"+order.getPrice_v());
+			order.setPrice_t(Integer.parseInt(prdt_sz.split(":")[1]));
 
 			order.setOrder_cnt(Integer.parseInt(request.getParameter("order_cnt")));
 			
@@ -88,9 +87,6 @@ public class Dxm1Controller {
 		order.setPrdt_sz(prdt_sz.split(":")[0]);
 		order.setPrice(Integer.parseInt(prdt_sz.split(":")[1]));
 		order.setPrice_t(Integer.parseInt(prdt_sz.split(":")[1]));
-		order.setPrice_v(prdt_sz.split(":")[2]);
-		order.setPrice_tv(prdt_sz.split(":")[2]);
-		System.out.println("갸격"+order.getPrice_v());
 		
 		order.setOrder_cnt(Integer.parseInt(request.getParameter("order_cnt")));
 		System.out.println(order.getOrder_cnt());
@@ -112,18 +108,7 @@ public class Dxm1Controller {
 
 					int cnt = isOrder.getOrder_cnt()+order.getOrder_cnt();
 					isOrder.setOrder_cnt(cnt);
-					System.out.println("단위가격"+isOrder.getPrice());
-					System.out.println("주문건수"+cnt);
-										
-					
 					isOrder.setPrice_t( isOrder.getPrice()*cnt );
-					
-					
-					DecimalFormat df = new DecimalFormat("#,##0");
-					isOrder.setPrice_tv(df.format(isOrder.getPrice_t()));
-					System.out.println("가격표시"+isOrder.getPrice_t());
-					System.out.println("가격표시"+df.format(isOrder.getPrice_t()));
-					System.out.println(isOrder.getPrice_tv());
 					dupCnt++;
 				}
 				orderList.add(isOrder);
@@ -185,17 +170,7 @@ public class Dxm1Controller {
 			if (isOrder.getPrdt_cd().equals(order.getPrdt_cd())
 			 && isOrder.getPrdt_sz().equals(order.getPrdt_sz())) {
 					isOrder.setOrder_cnt(order.getOrder_cnt());
-					
-					System.out.println("단위가격"+isOrder.getPrice());
-					System.out.println("주문건수"+order.getOrder_cnt());
 					isOrder.setPrice_t( isOrder.getPrice()*order.getOrder_cnt() );
-					
-					DecimalFormat df = new DecimalFormat("#,##0");
-					isOrder.setPrice_tv(df.format(isOrder.getPrice_t()));
-					System.out.println("가격표시"+isOrder.getPrice_t());
-					System.out.println("가격표시"+df.format(isOrder.getPrice_t()));
-					System.out.println(isOrder.getPrice_tv());
-					
 					dupCnt++;
 			}
 			orderList.add(isOrder);
@@ -341,12 +316,8 @@ public class Dxm1Controller {
 		TransactionStatus status = transactionManager.getTransaction(def);
 
 		try {
-//			System.out.println("insert 시작");
 			dxmDao.setOrderDao(order);
-			
-//			System.out.println("insert Tbl_dxm07");
 			dxmDao.setOrderListDao(prdtList);
-//			System.out.println("insert Tbl_dxm08");
 			transactionManager.commit(status);
 
 		} catch (Exception e) {
@@ -364,11 +335,32 @@ public class Dxm1Controller {
 	@RequestMapping("/order_list")
 	public String order_list( HttpServletRequest request, Model model) {
 		System.out.println("/order_list");
+		
+		final int LIST_VIEW = 7;
 		HttpSession session = request.getSession();
 		User sUser = (User) session.getAttribute("User");
 		
 		DxmDao dxmDao = sqlSession.getMapper(DxmDao.class);
-		model.addAttribute("orderList", dxmDao.getOrderListDao(sUser.getU_id()));
+		String strPageNo = request.getParameter("pageNo");
+		
+		if (strPageNo == null) strPageNo = "1";
+		int pageNo = Integer.parseInt(strPageNo);
+		int startPage = (pageNo*LIST_VIEW)-LIST_VIEW-1;
+		int endPage = pageNo*LIST_VIEW;
+		
+		int totCnt = 0;
+		int totCount = dxmDao.getTotalOrderCountDao(sUser.getU_id());
+		if ( totCount <= LIST_VIEW ) {
+			totCnt = 1;
+		} else {
+			if ( totCount%LIST_VIEW == 0 ) totCnt = totCount/LIST_VIEW;
+			else totCnt = (totCount/LIST_VIEW)+1 ;
+		}
+		
+		model.addAttribute("totCnt", totCnt);
+		model.addAttribute("orderList", dxmDao.getOrderListDao(sUser.getU_id(), startPage, endPage));
+		model.addAttribute("nowPage", strPageNo );
+		
 		return "order_list";
 	}
 
@@ -390,7 +382,7 @@ public class Dxm1Controller {
 		order.setPrdt_nm(request.getParameter("prdt_nm"));
 		order.setPrdt_sz(request.getParameter("prdt_sz"));
 		order.setPrice(Integer.parseInt(request.getParameter("price")));
-		order.setPrice_v(request.getParameter("price_v"));
+		order.setPrice_t(Integer.parseInt(request.getParameter("price")));
 		order.setOrder_cnt(Integer.parseInt(request.getParameter("order_cnt")));
 		
 		HttpSession session = request.getSession();
@@ -432,8 +424,7 @@ public class Dxm1Controller {
 		String prdt_sz=request.getParameter("prdt_sz");
 		order.setPrdt_sz(prdt_sz.split(":")[0]);
 		order.setPrice(Integer.parseInt(prdt_sz.split(":")[1]));
-		order.setPrice_v(prdt_sz.split(":")[2]);
-		System.out.println("갸격"+order.getPrice_v());
+		order.setPrice_t(Integer.parseInt(prdt_sz.split(":")[1]));
 		
 		order.setOrder_cnt(Integer.parseInt(request.getParameter("order_cnt")));
 		model.addAttribute("Order", order);

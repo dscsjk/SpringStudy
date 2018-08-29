@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@ taglib prefix='c' uri='http://java.sun.com/jsp/jstl/core'%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <html>
 <head>
 	<meta charset="UTF-8">
@@ -74,9 +75,9 @@
                                                 <select id="size" class="opt_size" title="사이즈" name="prdt_sz">
 
                                                         <c:forEach items='${prdtPrice}' var='pto'>
-                                                                <option value="${pto.prdt_sz}:${pto.price}:${pto.price_v}">
-                                                                <c:if test="${pto.prdt_sz != 'L' && pto.prdt_sz != 'M' }">${pto.price_v}</c:if>
-                                                                <c:if test="${pto.prdt_sz == 'L' || pto.prdt_sz == 'M' }">${pto.prdt_sz} : ${pto.price_v} </c:if>
+                                                                <option value="${pto.prdt_sz}:${pto.price}">
+                                                                <c:if test="${pto.prdt_sz != 'L' && pto.prdt_sz != 'M' }"><fmt:formatNumber value="${pto.price}" pattern="###,###,###"/></c:if>
+                                                                <c:if test="${pto.prdt_sz == 'L' || pto.prdt_sz == 'M' }">${pto.prdt_sz} : <fmt:formatNumber value="${pto.price}" pattern="###,###,###"/> </c:if>
                                                                 </option>
                                                         </c:forEach>
 

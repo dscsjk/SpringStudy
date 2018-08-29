@@ -116,7 +116,6 @@
 <input type="hidden" name="prdt_nm" value="${Order.prdt_nm}" >
 <input type="hidden" name="prdt_sz" value="${Order.prdt_sz}" >
 <input type="hidden" name="price" value="${Order.price}" >
-<input type="hidden" name="price_v" value="${Order.price_v}" >
 <input type="hidden" name="order_cnt" value="${Order.order_cnt}" >
 <input type="hidden" name="rcpt_tp" value="02" >
 <input type="hidden" name="rcpt_addr" value="${dto.store_addr}" >

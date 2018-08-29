@@ -28,8 +28,6 @@
 				<h2>주문조회</h2>
 			</div>
 		</div>
-
-
 <div class="container">
 	<div class="wrapper">
 		<div class="order_table">
@@ -69,6 +67,19 @@
 </c:forEach>
 					</tbody>
 			</table>
+			
+			<div class="page_nav">
+				<ul>
+				<li><a href='order_list?pageNo=1' onclick=''><<</a></li>
+<c:forEach  var = "i" begin="1" end="${totCnt}">		
+				
+					<c:if test="${nowPage == i}"><li><strong>${i}</strong></li>  </c:if>
+					<c:if test="${nowPage != i}"><li><a href='order_list?pageNo=${i}' onclick=''><c:out value = "${i}"/></a></li>  </c:if>
+</c:forEach>					
+				<li><a href='order_list?pageNo=${totCnt}'>>></a></li>
+				</ul>
+			</div>
+			
 		</div>
 	</div>
 </div>
