@@ -12,9 +12,30 @@
 	<link rel="shortcut icon" href="resources/img/ico/favicon.ico.png"/>
 	<link rel="stylesheet" type="text/css" href="resources/css/font.css">
 	<link rel="stylesheet" type="text/css" href="resources/css/layout.css?v1.0">
-	<link rel="shortcut icon" href="resources/img/ico/favicon.ico.png"/>
+	 
 </head>
 <body>
+<script type="text/javascript">
+function goBasket() {
+	
+	var prdt_sz_old = basketform.prdt_sz.value.split(':');
+	var cnt = prdt_sz_old[2];
+	
+	if (cnt + basketform.order_cnt.value > 5 ) {
+		alert("5개까지 주문 가능합니다.");
+	} else {
+		var prdt_sz_new = prdt_sz_old[0]+":"+prdt_sz_old[1];
+		alert(document.querySelector("#size"));
+		
+		document.querySelector("#size").value = prdt_sz_new;
+		
+		//basketform.prdt_sz.value = prdt_sz_old[0]+":"+prdt_sz_old[1];
+		alert(basketform.prdt_sz.value);
+		//basketform.submit();
+	}
+}
+</script>
+
 <jsp:include page="header.jsp"/>
 
 
@@ -72,12 +93,12 @@
                                         <dt>사이즈</dt>
                                         <dd>
                                             <div class="sel_box">
-                                                <select id="size" class="opt_size" title="사이즈" name="prdt_sz">
+                                                <select id="size" class="opt_size" title="사이즈" name="prdt_sz" >
 
                                                         <c:forEach items='${prdtPrice}' var='pto'>
-                                                                <option value="${pto.prdt_sz}:${pto.price}">
+                                                                <option value="${pto.prdt_sz}:${pto.price}:${pto.prdt_cnt} ">
                                                                 <c:if test="${pto.prdt_sz != 'L' && pto.prdt_sz != 'M' }"><fmt:formatNumber value="${pto.price}" pattern="###,###,###"/></c:if>
-                                                                <c:if test="${pto.prdt_sz == 'L' || pto.prdt_sz == 'M' }">${pto.prdt_sz} : <fmt:formatNumber value="${pto.price}" pattern="###,###,###"/> </c:if>
+                                                                <c:if test="${pto.prdt_sz == 'L' || pto.prdt_sz == 'M' }">${pto.prdt_sz} : <fmt:formatNumber value="${pto.price}" pattern="###,###,###"/></c:if>
                                                                 </option>
                                                         </c:forEach>
 
@@ -218,9 +239,22 @@
             </div>         
 </body>
 <script type="text/javascript">
-function goBasket() {
-	basketform.submit();
+function goBasket1() {
+	
+	var prdt_sz_old = basketform.prdt_sz.value.split(':');
+	var cnt = prdt_sz_old[2];
+	
+	if (cnt + basketform.order_cnt.value > 5 ) {
+		alert("5개까지 주문 가능합니다.");
+	} else {
+		var prdt_sz_new = prdt_sz_old[0]+":"+prdt_sz_old[1];
+		alert(prdt_sz_new);
+		document.querySelector("#prdt_sz_test").value = prdt_sz_new;
+		
+		//basketform.prdt_sz.value = prdt_sz_old[0]+":"+prdt_sz_old[1];
+		alert(basketform.prdt_sz.value);
+		//basketform.submit();
+	}
 }
 </script>
-
 </html>

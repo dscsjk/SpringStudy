@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@ taglib prefix='c' uri='http://java.sun.com/jsp/jstl/core'%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <html lang="ko">
 <head>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -13,6 +14,14 @@
 	<link rel="shortcut icon" href="resources/img/ico/favicon.ico.png"/>
 </head>
 <body>
+<script type="text/javascript">
+	function goBasket(sel){
+		console.log("#basketForm"+sel)
+		f=document.querySelector("#basketForm"+sel);
+		f.submit();
+	}
+	
+</script>
 
 <jsp:include page="header.jsp"/>
 
@@ -60,26 +69,51 @@
 						
 						<c:if test="${listCnt%4 == 1 }"><li class="prd_list_rgt"></c:if>
 						<c:if test="${listCnt%4 != 1 }"><li class=""></c:if>
+<c:if test="${prdt_tp == '01' || prdt_tp == '02' || prdt_tp == '03' }">
 							<a href="prdt_detail?prdt_cd=${dto.prdt_cd}&prdt_tp=${prdt_tp}">
+</c:if>
 								<div class="prd_img">
 									<div class="prd_img_view"><img src="resources/img/${dto.prdt_img}" alt="${dto.prdt_nm}"></div>
 								</div>
 								<div class="prd_info">
 									<div class="prd_title">${dto.prdt_nm}</div>
 								</div>
+<c:if test="${prdt_tp == '01' || prdt_tp == '02' || prdt_tp == '03' }">
 							</a>
-							<div class="prd_price">${dto.prdt_sz}
-								<div class="prd_option">
-										<a href="javascript:addGoods('RDK005L1');" class="btn_ico btn_cart2">장바구니</a>
-									</div>
+</c:if>
+							<div class="prd_price" >${dto.prdt_sz}
+<c:if test="${prdt_tp == '03' || prdt_tp == '04' }">
+  				    <c:set  var="prdt_price" value="${fn:replace(dto.prdt_sz,',','')}" />  
+                    <form id="basketForm${listCnt}" action="basket" method="post">
+                        <input type="hidden" name="prdt_cd" value="${dto.prdt_cd}">
+                        <input type="hidden" name="prdt_img" value="${dto.prdt_img}">
+                        <input type="hidden" name="prdt_nm" value="${dto.prdt_nm}">
+                        <input type="hidden" name="prdt_sz" value=":${fn:replace(prdt_price,'원','')}">
+
+								<div style="text-align:center" class="prd_option">
+								<table width="100%" height="100%">
+<c:if test="${prdt_tp == '03' || prdt_tp == '04' }">
+									<td style="width:60%; vertical-align: middle;" align="right">
+                                    <select name="order_cnt">
+                                       <option value="1">1&nbsp&nbsp&nbsp&nbsp</option>
+                                       <option value="2">2 </option>
+                                       <option value="3">3 </option>
+                                       <option value="4">4 </option>
+                                       <option value="5">5 </option>
+                                    </select>
+                                    </td>
+</c:if>
+									<td style="width:40%; vertical-align: middle;" align="center">
+									<a href="#" id="basket" onclick="goBasket(${listCnt})"><img src="resources/img/ico/btn_cart2.png" width="60" height="30" ></a>
+									</td>
+									</table>
+								</div>
+                    </form>
+</c:if>								
 							</div>
 						</li>
 						<c:set  var="listCnt" value="${listCnt+1}" />
 						</c:forEach>
-						
-						
-						
-						
 						</ul>
 					</div>
 

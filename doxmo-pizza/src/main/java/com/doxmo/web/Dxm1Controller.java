@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.doxmo.web.dao.DxmDao;
 import com.doxmo.web.dto.Dxm01;
+import com.doxmo.web.dto.Dxm04;
 import com.doxmo.web.dto.Dxm07;
 import com.doxmo.web.dto.Dxm08;
 import com.doxmo.web.dto.OrderPrdt;
@@ -124,6 +125,26 @@ public class Dxm1Controller {
 		session.setAttribute("OrderList", orderList);
 	}
 
+	
+	public int getPrdtMaxCnt(HttpServletRequest request, String prdt_cd, String prdt_sz ) {
+		System.out.println("getPrdtMaxCnt");
+
+		HttpSession session = request.getSession();
+		@SuppressWarnings("unchecked")
+		ArrayList<OrderPrdt> sessionOrderList = (ArrayList<OrderPrdt>) session.getAttribute("OrderList");
+		
+		if (sessionOrderList==null) {
+			return 0;
+		} else {
+			for (OrderPrdt isOrder : sessionOrderList) {
+				if (isOrder.getPrdt_cd().equals(prdt_cd) && isOrder.getPrdt_sz().equals(prdt_sz)) {
+					return isOrder.getOrder_cnt();
+				}
+			}
+		}
+		return 0;
+	}
+
 	@RequestMapping("/basket_del")
 	@SuppressWarnings("unchecked")
 	public String basket_del( HttpServletRequest request, Model model) {
@@ -224,7 +245,19 @@ public class Dxm1Controller {
 
 		DxmDao dxmDao = sqlSession.getMapper(DxmDao.class);
 		model.addAttribute("prdt", dxmDao.getPrdtDao(prdt_cd));
-		model.addAttribute("prdtPrice", dxmDao.getPrdtPriceDao(prdt_cd));
+		
+		
+		ArrayList <Dxm04> prdtPrice = dxmDao.getPrdtPriceDao(prdt_cd);
+		HttpSession session = request.getSession();
+
+		for (int i=0;i<prdtPrice.size();i++) {
+			if ( session.getAttribute("OrderList") != null ) {
+				System.out.println(getPrdtMaxCnt(request, prdt_cd,prdtPrice.get(i).getPrdt_sz() ));
+				prdtPrice.get(i).setPrdt_cnt(getPrdtMaxCnt(request, prdt_cd,prdtPrice.get(i).getPrdt_sz() ));
+			}
+		}
+
+		model.addAttribute("prdtPrice", prdtPrice);
 		model.addAttribute("prdtDetail", dxmDao.getPrdtDetailDao(prdt_cd));
 		model.addAttribute("prdtNutri", dxmDao.getNutrientListDao(prdt_cd));
 		model.addAttribute("prdt_tp", request.getParameter("prdt_tp"));

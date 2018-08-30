@@ -5,8 +5,8 @@ public class Dxm04 {
 	private String prdt_sz;
 	private String crt_dt;
 	private int price;
+	private int prdt_cnt;
 	private String price_v;
-	
 	private String valid;
 
 	public String getPrdt_cd() {
@@ -45,4 +45,12 @@ public class Dxm04 {
 	public void setValid(String valid) {
 		this.valid = valid;
 	}
+	
+	public int getPrdt_cnt() {
+		return prdt_cnt;
+	}
+	public void setPrdt_cnt(int prdt_cnt) {
+		this.prdt_cnt = prdt_cnt;
+	}
+	
 }
