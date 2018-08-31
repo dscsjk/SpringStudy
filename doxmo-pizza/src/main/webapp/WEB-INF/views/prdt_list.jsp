@@ -14,13 +14,22 @@
 	<link rel="shortcut icon" href="resources/img/ico/favicon.ico.png"/>
 </head>
 <body>
+<div class="pop_layer pop_type topping" id="rpzLayer_pop"></div>
+
 <script type="text/javascript">
 	function goBasket(sel){
 		console.log("#basketForm"+sel)
 		f=document.querySelector("#basketForm"+sel);
-		f.submit();
+		
+		var cnt1 = Number(f.prdt_cnt.value);
+		var cnt2 = Number(f.order_cnt.value);
+		var cnt3 = cnt1+cnt2;
+		if (cnt3 > 5 ) {
+			alert("5개까지 주문 가능합니다. 장바구니 확인하세요");
+		} else {
+			f.submit();
+		}
 	}
-	
 </script>
 
 <jsp:include page="header.jsp"/>
@@ -88,18 +97,18 @@
                         <input type="hidden" name="prdt_cd" value="${dto.prdt_cd}">
                         <input type="hidden" name="prdt_img" value="${dto.prdt_img}">
                         <input type="hidden" name="prdt_nm" value="${dto.prdt_nm}">
+                        <input type="hidden" name="prdt_cnt" value="${sideCnt[dto.prdt_cd]}">
                         <input type="hidden" name="prdt_sz" value=":${fn:replace(prdt_price,'원','')}">
-
 								<div style="text-align:center" class="prd_option">
 								<table width="100%" height="100%">
 <c:if test="${prdt_tp == '03' || prdt_tp == '04' }">
 									<td style="width:60%; vertical-align: middle;" align="right">
                                     <select name="order_cnt">
-                                       <option value="1">1&nbsp&nbsp&nbsp&nbsp</option>
-                                       <option value="2">2 </option>
-                                       <option value="3">3 </option>
-                                       <option value="4">4 </option>
-                                       <option value="5">5 </option>
+                                       <option value=1>1&nbsp&nbsp&nbsp&nbsp</option>
+                                       <option value=2>2 </option>
+                                       <option value=3>3 </option>
+                                       <option value=4>4 </option>
+                                       <option value=5>5 </option>
                                     </select>
                                     </td>
 </c:if>

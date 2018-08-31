@@ -3,6 +3,7 @@ package com.doxmo.web;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.doxmo.web.dao.DxmDao;
 import com.doxmo.web.dto.Dxm01;
+import com.doxmo.web.dto.Dxm03;
 import com.doxmo.web.dto.Dxm04;
 import com.doxmo.web.dto.Dxm07;
 import com.doxmo.web.dto.Dxm08;
@@ -28,6 +30,12 @@ import com.doxmo.web.dto.User;
 
 @Controller
 public class Dxm1Controller {
+	final String PRDT_TP_SPEC = "01";
+	final String PRDT_TP_CLASSIC = "02";
+	final String PRDT_TP_SIDE = "03";
+	final String PRDT_TP_DRINK = "04";
+
+	
 	// session으로 DB Connect
 	@Autowired
 	private SqlSession sqlSession;
@@ -125,7 +133,6 @@ public class Dxm1Controller {
 		session.setAttribute("OrderList", orderList);
 	}
 
-	
 	public int getPrdtMaxCnt(HttpServletRequest request, String prdt_cd, String prdt_sz ) {
 		System.out.println("getPrdtMaxCnt");
 
@@ -137,6 +144,8 @@ public class Dxm1Controller {
 			return 0;
 		} else {
 			for (OrderPrdt isOrder : sessionOrderList) {
+				System.out.println("["+isOrder.getPrdt_cd()+"]"+"["+isOrder.getPrdt_sz()+"]");
+				
 				if (isOrder.getPrdt_cd().equals(prdt_cd) && isOrder.getPrdt_sz().equals(prdt_sz)) {
 					return isOrder.getOrder_cnt();
 				}
@@ -229,11 +238,22 @@ public class Dxm1Controller {
 		System.out.println("/prdt_list");
 		
 		String prdt_tp = null;
+		
 		prdt_tp = request.getParameter("prdt_tp");
-		if ( prdt_tp == null) prdt_tp = "01";
+		if ( prdt_tp == null) prdt_tp = PRDT_TP_SPEC;
 		
 		DxmDao dxmDao = sqlSession.getMapper(DxmDao.class);
-		model.addAttribute("dxm03",dxmDao.getPrdtListDao(prdt_tp));
+		ArrayList<Dxm03> dxm03= dxmDao.getPrdtListDao(prdt_tp);
+		model.addAttribute("dxm03",dxm03);
+		
+		if ( prdt_tp.equals(PRDT_TP_SIDE) || prdt_tp.equals(PRDT_TP_DRINK)) {
+			HashMap<String, Integer> sideCnt = new HashMap<String, Integer>();
+			for (int i=0;i<dxm03.size();i++) {
+				int prdt_cnt = getPrdtMaxCnt(request, dxm03.get(i).getPrdt_cd(), "" );
+				sideCnt.put(dxm03.get(i).getPrdt_cd(),prdt_cnt);
+				model.addAttribute("sideCnt", sideCnt);
+			}
+		}
 		model.addAttribute("prdt_tp",prdt_tp);
 		return "prdt_list";
 	}
@@ -252,8 +272,8 @@ public class Dxm1Controller {
 
 		for (int i=0;i<prdtPrice.size();i++) {
 			if ( session.getAttribute("OrderList") != null ) {
-				System.out.println(getPrdtMaxCnt(request, prdt_cd,prdtPrice.get(i).getPrdt_sz() ));
-				prdtPrice.get(i).setPrdt_cnt(getPrdtMaxCnt(request, prdt_cd,prdtPrice.get(i).getPrdt_sz() ));
+				if (prdtPrice.get(i).getPrdt_sz()==null) prdtPrice.get(i).setPrdt_sz("");
+				prdtPrice.get(i).setPrdt_cnt(getPrdtMaxCnt(request, prdt_cd, prdtPrice.get(i).getPrdt_sz() ));
 			}
 		}
 
@@ -378,7 +398,7 @@ public class Dxm1Controller {
 		
 		if (strPageNo == null) strPageNo = "1";
 		int pageNo = Integer.parseInt(strPageNo);
-		int startPage = (pageNo*LIST_VIEW)-LIST_VIEW-1;
+		int startPage = (pageNo*LIST_VIEW)-LIST_VIEW+1;
 		int endPage = pageNo*LIST_VIEW;
 		
 		int totCnt = 0;
@@ -390,6 +410,8 @@ public class Dxm1Controller {
 			else totCnt = (totCount/LIST_VIEW)+1 ;
 		}
 		
+		
+		System.out.println("startPage->"+startPage +" endPage->"+ endPage);
 		model.addAttribute("totCnt", totCnt);
 		model.addAttribute("orderList", dxmDao.getOrderListDao(sUser.getU_id(), startPage, endPage));
 		model.addAttribute("nowPage", strPageNo );
@@ -397,6 +419,20 @@ public class Dxm1Controller {
 		return "order_list";
 	}
 
+	@RequestMapping("/order_detail")
+	public String order_detail( HttpServletRequest request, Model model) {
+		System.out.println("/order_detail");
+		
+		String order_no = request.getParameter("order_no");
+		
+		DxmDao dxmDao = sqlSession.getMapper(DxmDao.class);
+		model.addAttribute("orderDetail", dxmDao.getOrderDetailDao(order_no));
+		model.addAttribute("OrderPrdtList", dxmDao.getOrderPrdtListDao(order_no));
+		
+		return "order_detail";
+	}
+	
+	
 	@RequestMapping("/rcpt_tp_choice")
 	public String rcpt_tp_choice( HttpServletRequest request, Model model) {
 		System.out.println("/rcpt_tp_choice");

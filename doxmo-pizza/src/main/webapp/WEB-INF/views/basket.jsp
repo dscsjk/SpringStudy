@@ -93,6 +93,7 @@
 								</thead>
 								<tbody>
 <c:set var="index" value="0" />
+<c:set var="totPrice" value="0"/>
 <c:forEach items="${OrderList}" var="dto">
 <c:set  var="index" value="${index+1}" />
 								
@@ -109,6 +110,7 @@
 											</div>
 										</td>
 										<td><fmt:formatNumber value="${dto.price}" pattern="###,###,###"/> 원</td>
+<c:set var="totPrice" value="${totPrice+(dto.price*dto.order_cnt)}"/>										
 										<td>
 
 										<div class="sel_box">
@@ -122,10 +124,6 @@
 	<option value="3" <c:if test="${dto.order_cnt eq 3 }">selected="selected"</c:if> >3 </option>
 	<option value="4" <c:if test="${dto.order_cnt eq 4 }">selected="selected"</c:if> >4 </option>
 	<option value="5" <c:if test="${dto.order_cnt eq 5 }">selected="selected"</c:if> >5 </option>
-	<option value="6" <c:if test="${dto.order_cnt eq 6 }">selected="selected"</c:if> >6 </option>
-	<option value="7" <c:if test="${dto.order_cnt eq 7 }">selected="selected"</c:if> >7 </option>
-	<option value="8" <c:if test="${dto.order_cnt eq 8 }">selected="selected"</c:if> >8 </option>
-	<option value="9" <c:if test="${dto.order_cnt eq 9 }">selected="selected"</c:if> >9 </option>
 													    </select>	
 </form>
 <form id="basketDelForm${index}" action="basket_del" method="post">
@@ -159,7 +157,14 @@
 					</div>
 				</div>
 				<div class="order_section cart_total">
+				
+					<div class="tit_order">
+						<strong>총 주문 금액</strong>
+					</div>
 					<div class="cart_total_wrap">
+						<div class="price_wrap">
+							<p><fmt:formatNumber value="${totPrice}" pattern="###,###,###"/> 원</p>
+						</div>
 						<div class="btn_wrap">
 							<a href="prdt_list" class="btn btn_mdle btn_basic"><span class="btn_txt">제품 추가 +</span></a>
 							<a href="#" onclick="goBasketOrder(${index})"  class="btn btn_mdle btn_red btn_basic"><span class="btn_txt">주문하시겠어요?</span></a>

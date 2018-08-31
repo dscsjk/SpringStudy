@@ -23,12 +23,17 @@
 		WHERE  PRDT_CD = #{param1} 
 	</select>
 
+	<select id="getSidePriceDao" resultType="com.doxmo.web.dto.Dxm04">
+		SELECT price_num, prdt_cd, prdt_sz, price, to_char(price,'999,999,999') price_v, valid, crt_dt 
+		FROM   TBL_DXM04 
+		WHERE  PRDT_CD = #{param1} AND ROWNUM = 1
+	</select>
+
 	<select id="getPrdtDetailDao" resultType="com.doxmo.web.dto.Dxm05">
 		SELECT *  
 		FROM   TBL_DXM05 
 		WHERE  PRDT_CD = #{param1} 
 	</select>
-
 
 	<select id="getNutrientListDao" resultType="com.doxmo.web.dto.Dxm15">
 		SELECT A.prdt_nm, B.prdt_sz, 
@@ -93,4 +98,22 @@
 		</foreach>
   </insert>
 	
+	<select id="getOrderDetailDao" resultType="com.doxmo.web.dto.OrderDetail">
+		select a.order_no, to_char(a.crt_dt,'YYYY-MM-DD hh24:ss') crt_dt, 
+        		to_char(a.tt_pay,'999,999,999') tt_pay, decode(a.pay_tp,'0','신용카드','1','현금','') pay_tp, 
+       			decode(a.rcpt_tp,'01','배달주문','02','포장주문','') rcpt_tp, a.rcpt_nm, 
+       			a.rcpt_tel, decode(a.order_st,'01','결제완료','02','상품준비중','03','상품준비완료','04','배달','') order_st, b.store_nm, b.store_tel
+		from tbl_dxm07 a, tbl_dxm06 b
+		where a.order_no = #{param1}
+		and a.store_cd = b.store_cd	
+	</select>
+	
+	<select id="getOrderPrdtListDao" resultType="com.doxmo.web.dto.OrderPrdtDetail">
+		select b.prdt_nm||' '||a.prdt_sz prdt_nm, a.order_cnt, to_char(c.price*a.order_cnt,'999,999,999') price
+		from tbl_dxm08 a, tbl_dxm03 b, tbl_dxm04 c
+		where a.order_no = #{param1}
+		and a.prdt_cd = b.prdt_cd
+		and a.prdt_cd = c.prdt_cd
+		and a.prdt_sz = c.prdt_sz
+	</select>
 </mapper>

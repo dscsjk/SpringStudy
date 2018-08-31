@@ -58,7 +58,7 @@
 							<tr>
 								<td>${dto.crt_dt}</td>
 								<td><span class="ico ico_tag">${dto.rcpt_tp}</span></td>
-								<td><p class="order_num"><a href="javascript:goView('${dto.order_no}');">${dto.order_no}</a></p></td>
+								<td><p class="order_num"><a href="order_detail?order_no=${dto.order_no}">${dto.order_no}</a></p></td>
 								<td><p>${dto.order_prdt}</p></td>
 								<td>${dto.tt_pay}원</td>
 								<td>${dto.store_nm}<br>${dto.store_tel}</td>

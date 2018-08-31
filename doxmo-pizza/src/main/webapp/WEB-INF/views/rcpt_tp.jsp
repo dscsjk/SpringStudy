@@ -90,7 +90,7 @@
 				<div class="order_addr" id="addr_W" style="">
 					<div class="order_adr_chk">
 						<strong>포장매장</strong>
-						<a href="javascript:addBranch();" class="btn"><span class="btn_txt">포장매장 등록</span></a>
+						<!--  a href="javascript:addBranch();" class="btn"><span class="btn_txt">포장매장 등록</span></a -->
 					</div>
 				</div>
 				<div class="order_lately" style="">

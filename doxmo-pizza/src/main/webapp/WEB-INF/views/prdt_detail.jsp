@@ -15,25 +15,24 @@
 	 
 </head>
 <body>
+
 <script type="text/javascript">
 function goBasket() {
 	
-	var prdt_sz_old = basketform.prdt_sz.value.split(':');
-	var cnt = prdt_sz_old[2];
-	
-	if (cnt + basketform.order_cnt.value > 5 ) {
-		alert("5개까지 주문 가능합니다.");
+	var prdt_sz_old = basketform.opt_sz.value.split(':');
+	var cnt1 = Number(prdt_sz_old[2].replace(' ','0'));
+	var cnt2 = Number(basketform.order_cnt.value);
+	var cnt3 = cnt1+cnt2;
+	if (cnt3 > 5 ) {
+		alert("5개까지 주문 가능합니다. 장바구니 확인하세요");
 	} else {
 		var prdt_sz_new = prdt_sz_old[0]+":"+prdt_sz_old[1];
-		alert(document.querySelector("#size"));
-		
-		document.querySelector("#size").value = prdt_sz_new;
-		
-		//basketform.prdt_sz.value = prdt_sz_old[0]+":"+prdt_sz_old[1];
-		alert(basketform.prdt_sz.value);
-		//basketform.submit();
+		basketform.prdt_sz.value=prdt_sz_new;
+		open
+		basketform.submit();
 	}
 }
+
 </script>
 
 <jsp:include page="header.jsp"/>
@@ -65,6 +64,7 @@ function goBasket() {
                         <input type="hidden" name="prdt_cd" value="${prdt.prdt_cd}">
                         <input type="hidden" name="prdt_img" value="${prdt.prdt_img}">
                         <input type="hidden" name="prdt_nm" value="${prdt.prdt_nm}">
+                        <input type="hidden" name="prdt_sz" value=" :0" >
                                 
                     <div class="prd_info">
                         <div class="prd_img_view">
@@ -93,7 +93,7 @@ function goBasket() {
                                         <dt>사이즈</dt>
                                         <dd>
                                             <div class="sel_box">
-                                                <select id="size" class="opt_size" title="사이즈" name="prdt_sz" >
+                                                <select id="size" class="opt_size" title="사이즈" name="opt_sz" >
 
                                                         <c:forEach items='${prdtPrice}' var='pto'>
                                                                 <option value="${pto.prdt_sz}:${pto.price}:${pto.prdt_cnt} ">
@@ -238,23 +238,5 @@ function goBasket() {
         
             </div>         
 </body>
-<script type="text/javascript">
-function goBasket1() {
-	
-	var prdt_sz_old = basketform.prdt_sz.value.split(':');
-	var cnt = prdt_sz_old[2];
-	
-	if (cnt + basketform.order_cnt.value > 5 ) {
-		alert("5개까지 주문 가능합니다.");
-	} else {
-		var prdt_sz_new = prdt_sz_old[0]+":"+prdt_sz_old[1];
-		alert(prdt_sz_new);
-		document.querySelector("#prdt_sz_test").value = prdt_sz_new;
-		
-		//basketform.prdt_sz.value = prdt_sz_old[0]+":"+prdt_sz_old[1];
-		alert(basketform.prdt_sz.value);
-		//basketform.submit();
-	}
-}
-</script>
+
 </html>
