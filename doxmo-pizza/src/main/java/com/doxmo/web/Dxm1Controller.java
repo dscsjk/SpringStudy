@@ -389,7 +389,9 @@ public class Dxm1Controller {
 	public String order_list( HttpServletRequest request, Model model) {
 		System.out.println("/order_list");
 		
-		final int LIST_VIEW = 7;
+		final int LIST_VIEW = 5;
+		final int VIEW_CNT = 3;
+		
 		HttpSession session = request.getSession();
 		User sUser = (User) session.getAttribute("User");
 		
@@ -409,13 +411,33 @@ public class Dxm1Controller {
 			if ( totCount%LIST_VIEW == 0 ) totCnt = totCount/LIST_VIEW;
 			else totCnt = (totCount/LIST_VIEW)+1 ;
 		}
+		System.out.println("pageNo->"+pageNo+ "totCnt->"+totCnt );
+		
+		int endPageV=0, startPageV=0;
+		
+		if ( pageNo <= VIEW_CNT ) {
+			startPageV = 1; 
+			System.out.println(totCount/LIST_VIEW);
+			if ((int)(totCount/LIST_VIEW) > VIEW_CNT) endPageV = VIEW_CNT;
+			else endPageV = (totCount/LIST_VIEW);
+			System.out.println(endPageV);
+		} else {
+			if ( pageNo%VIEW_CNT == 0 ) startPageV = pageNo-VIEW_CNT+1;
+				startPageV = ((int)(pageNo/VIEW_CNT)*VIEW_CNT)+1;
+			if ( startPageV+VIEW_CNT-1 <= totCount/LIST_VIEW ) endPageV= startPageV+VIEW_CNT-1;
+			else endPageV= (totCount/LIST_VIEW)+1;
+		}
+		
 		
 		
 		System.out.println("startPage->"+startPage +" endPage->"+ endPage);
-		model.addAttribute("totCnt", totCnt);
+		System.out.println("startPageV->"+startPageV +" endPageV->"+ endPageV);
 		model.addAttribute("orderList", dxmDao.getOrderListDao(sUser.getU_id(), startPage, endPage));
 		model.addAttribute("nowPage", strPageNo );
-		
+		model.addAttribute("startPage", startPageV );
+		model.addAttribute("endPage", endPageV );
+		model.addAttribute("totCnt", totCnt);
+		model.addAttribute("viewCnt", VIEW_CNT );
 		return "order_list";
 	}
 

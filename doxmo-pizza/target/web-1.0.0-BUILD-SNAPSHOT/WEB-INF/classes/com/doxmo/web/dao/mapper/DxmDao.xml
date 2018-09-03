@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.doxmo.web.dao.DxmDao">
+
+	<select id="getPrdtListDao" resultType="com.doxmo.web.dto.Dxm03">
+		SELECT PRDT_CD, PRDT_NM, PRDT_TP, PRDT_IMG, VALID, UPD_DT, CRT_DT, F_GETPRICE(PRDT_CD) PRDT_SZ  
+		FROM   TBL_DXM03 
+		WHERE  VALID = 'T' and PRDT_TP = #{param1} 
+	</select>
+
+	<select id="getPrdtDao" resultType="com.doxmo.web.dto.Dxm03">
+		SELECT PRDT_CD, PRDT_NM, PRDT_TP, PRDT_IMG, VALID, UPD_DT, CRT_DT, F_GETPRICE(PRDT_CD) PRDT_SZ  
+		FROM   TBL_DXM03 
+		WHERE  PRDT_CD = #{param1} 
+	</select>
+
+	<select id="getPrdtPriceDao" resultType="com.doxmo.web.dto.Dxm04">
+		SELECT price_num, prdt_cd, prdt_sz, price, to_char(price,'999,999,999') price_v, valid, crt_dt 
+		FROM   TBL_DXM04 
+		WHERE  PRDT_CD = #{param1} 
+	</select>
+
+	<select id="getSidePriceDao" resultType="com.doxmo.web.dto.Dxm04">
+		SELECT price_num, prdt_cd, prdt_sz, price, to_char(price,'999,999,999') price_v, valid, crt_dt 
+		FROM   TBL_DXM04 
+		WHERE  PRDT_CD = #{param1} AND ROWNUM = 1
+	</select>
+
+	<select id="getPrdtDetailDao" resultType="com.doxmo.web.dto.Dxm05">
+		SELECT *  
+		FROM   TBL_DXM05 
+		WHERE  PRDT_CD = #{param1} 
+	</select>
+
+	<select id="getNutrientListDao" resultType="com.doxmo.web.dto.Dxm15">
+		SELECT A.prdt_nm, B.prdt_sz, 
+			TO_CHAR(B.tt_weight,'999,999,999') tt_weight, 
+		    TO_CHAR(B.once_piece,'999,999,999') once_piece, 
+			TO_CHAR(B.once_weight,'999,999,999') once_weight, 
+			TO_CHAR(B.calorie,'999,999,999') calorie, 
+			TO_CHAR(B.protein,'999,999,999') protein, 
+			TO_CHAR(B.fat,'999,999,999') fat, 
+			TO_CHAR(B.sodium,'999,999,999') sodium, 
+			TO_CHAR(B.sugar,'999,999,999') sugar
+		from tbl_dxm03 A, tbl_dxm15 B
+		where A.prdt_cd = B.prdt_cd
+		and A.prdt_cd = #{param1} 
+	</select>
+
+	<select id="getOrderListDao" resultType="com.doxmo.web.dto.OrderList">
+		select crt_dt, rcpt_tp, order_no, order_prdt, tt_pay, store_nm, store_tel, order_st 
+		from (  select rownum as rid , crt_dt, rcpt_tp, order_no, order_prdt, tt_pay, store_nm, store_tel, order_st 
+      			from v_order_list
+      			where u_id = #{param1}
+      			order by crt_dt desc )
+		where rid between #{param2} and #{param3}
+	</select>
+	
+	<select id="getTotalOrderCountDao" resultType="int">
+		select count(*) 
+		from v_order_list
+      	where u_id = #{param1}
+	</select>
+
+	<!-- Dynamic sql -->
+	<select id="getUserInfoDao" resultType="com.doxmo.web.dto.Dxm01">
+		select * 
+		from tbl_dxm01 
+		<where> u_id = #{param1} 
+			<if test="param3 == 1">
+				and pswd = #{param2}
+			</if>
+		</where>
+	</select>
+	
+	<select id="getStoreListDao" resultType="com.doxmo.web.dto.Dxm06">
+		select store_cd, store_nm, store_tel, store_zip, store_addr, valid, upd_dt, crt_dt 
+		from   tbl_dxm06 
+		where  valid = 'T' 
+		order by store_nm 
+	</select>
+
+	<!-- 구조체로 Insert -->
+	<insert id="setOrderDao" parameterType="com.doxmo.web.dto.Dxm07">
+    	insert into tbl_dxm07 
+    		(order_no, u_id, store_cd, tt_pay, pay_tp, rcpt_tp, rcpt_nm, rcpt_tel, rcpt_addr, memo, order_st) 
+		values(#{order_no}, #{u_id}, #{store_cd}, #{tt_pay}, #{pay_tp}, #{rcpt_tp}, #{rcpt_nm}, #{rcpt_tel}, #{rcpt_addr}, #{memo}, '01') 
+	</insert>
+
+	<!-- ArrayList Insert -->
+	<insert id="setOrderListDao" parameterType="com.doxmo.web.dto.Dxm08">
+		<foreach collection="list" item="item" index="index"  open="INSERT ALL " separator=" "  close="SELECT * FROM DUAL">
+			into tbl_dxm08 (order_no, prdt_cd, prdt_sz, order_cnt) values
+			(#{item.order_no}, #{item.prdt_cd},#{item.prdt_sz}, #{item.order_cnt}) 
+		</foreach>
+  </insert>
+	
+	<select id="getOrderDetailDao" resultType="com.doxmo.web.dto.OrderDetail">
+		select a.order_no, to_char(a.crt_dt,'YYYY-MM-DD hh24:ss') crt_dt, 
+        		to_char(a.tt_pay,'999,999,999') tt_pay, decode(a.pay_tp,'0','신용카드','1','현금','') pay_tp, 
+       			decode(a.rcpt_tp,'01','배달주문','02','포장주문','') rcpt_tp, a.rcpt_nm, 
+       			a.rcpt_tel, decode(a.order_st,'01','결제완료','02','상품준비중','03','상품준비완료','04','배달','') order_st, b.store_nm, b.store_tel
+		from tbl_dxm07 a, tbl_dxm06 b
+		where a.order_no = #{param1}
+		and a.store_cd = b.store_cd	
+	</select>
+	
+	<select id="getOrderPrdtListDao" resultType="com.doxmo.web.dto.OrderPrdtDetail">
+		select b.prdt_nm||' '||a.prdt_sz prdt_nm, a.order_cnt, to_char(c.price*a.order_cnt,'999,999,999') price
+		from tbl_dxm08 a, tbl_dxm03 b, tbl_dxm04 c
+		where a.order_no = #{param1}
+		and a.prdt_cd = b.prdt_cd
+		and a.prdt_cd = c.prdt_cd
+		and a.prdt_sz = c.prdt_sz
+	</select>
+</mapper>
