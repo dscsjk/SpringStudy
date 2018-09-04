@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--  현재 XML문서의 규칙을 담고 있는 스키마 파일을 지정하는 태그 -->
+<taglib version="2.1" xmlns:j2ee="http://java.sun.com/xml/ns/j2ee" 
+xmlns:xml="http://www.w3.org/XML/1998/namespace" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-jsptaglibrary_2_1.xsd ">
+<!-- 태그 라이브러리에 대한 설정 -->
+<description>간단한 커스팅 태그 예제</description>
+<!-- 태그 라이브러리의 버전. 개발자에 의해 설정됨 -->
+<tlib-version>1.0</tlib-version>
+<!--  현재 태그 라이브러리의 간단한 이름 -->
+<short-name>MsgTagSimple</short-name>
+<!--  커스텀 태그가 위치하는 부분 -->
+<tag>
+	<!--  태그이름. 커스텀 태그 핸들러와 연결됨 -->
+	<name>print</name>
+	<!--  커스텀태그 핸들러 클래스 -->
+	<tag-class>prj0621.MsgTagSimplehandler</tag-class>
+	<!--  태그내 다른 태그럴 포함할 것인지 JSP문장이 올수 있는지등을 지정
+	empty:태그 바디가 없는 태그<xxx/>
+	jsp:body내용에 JSP코드가 올 수 있다.<xxx>JSP코드</xxx> 
+	tagdependent: 태그 핸들러에 의해 처리됨. 또 다른 커스템 태가가 올수 있다. 
+	-->
+	<body-content>empty</body-content>
+</tag>
+<!-- 그 외 taglib의 하위목록
+jsp-version 적용되는 JSP버전이다.
+uri taglib를 고유한 것으로 만들어 주는 URI정보
+display-name 출력에 사용되는 taglib 이름
+ -->
+ </taglib>
