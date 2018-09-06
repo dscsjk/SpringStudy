@@ -388,55 +388,61 @@ public class Dxm1Controller {
 	public String order_list( HttpServletRequest request, Model model) {
 		System.out.println("/order_list");
 		
-		final int LIST_VIEW = 5;
-		final int VIEW_CNT = 3;
+		final int LIST_VIEW = 5; // 출력할 리스트 건수
+		final int PAGE_VIEW = 3; // 출력할 페이지 건수
 		
+		// 조회하고자 하는 페이지값을 가져온다.
+		int pageNo = 1;
+		if( request.getParameter("pageNo") != null )
+			pageNo = Integer.parseInt(request.getParameter("pageNo"));
+		
+		// 해당 User의 총주문건수를 조회한다.
 		HttpSession session = request.getSession();
 		User sUser = (User) session.getAttribute("User");
 		
 		DxmDao dxmDao = sqlSession.getMapper(DxmDao.class);
-		String strPageNo = request.getParameter("pageNo");
-		
-		if (strPageNo == null) strPageNo = "1";
-		int pageNo = Integer.parseInt(strPageNo);
-		int startPage = (pageNo*LIST_VIEW)-LIST_VIEW+1;
-		int endPage = pageNo*LIST_VIEW;
-		
-		int totCnt = 0;
 		int totCount = dxmDao.getTotalOrderCountDao(sUser.getU_id());
-		if ( totCount <= LIST_VIEW ) {
-			totCnt = 1;
-		} else {
-			if ( totCount%LIST_VIEW == 0 ) totCnt = totCount/LIST_VIEW;
-			else totCnt = (totCount/LIST_VIEW)+1 ;
-		}
-		System.out.println("pageNo->"+pageNo+ "totCnt->"+totCnt );
 		
-		int endPageV=0, startPageV=0;
-		
-		if ( pageNo <= VIEW_CNT ) {
-			startPageV = 1; 
-			System.out.println(totCount/LIST_VIEW);
-			if ((int)(totCount/LIST_VIEW) > VIEW_CNT) endPageV = VIEW_CNT;
-			else endPageV = (totCount/LIST_VIEW);
-			System.out.println(endPageV);
-		} else {
-			if ( pageNo%VIEW_CNT == 0 ) startPageV = pageNo-VIEW_CNT+1;
-				startPageV = ((int)(pageNo/VIEW_CNT)*VIEW_CNT)+1;
-			if ( startPageV+VIEW_CNT-1 <= totCount/LIST_VIEW ) endPageV= startPageV+VIEW_CNT-1;
-			else endPageV= (totCount/LIST_VIEW)+1;
+		// startPage와 endPage값을 구한다.
+		int Qtnt = totCount/LIST_VIEW;  // 총건수 를 리스트건수로 나눈 몫 
+		int Rmn = totCount%LIST_VIEW; // 총건수 를 리스트건수로 나눈 나머지
+
+		// 1.총페이지 값을 구한다.
+		int totPageCnt = 1;
+		if ( totCount > LIST_VIEW ) { 
+			if ( Rmn == 0 ) totPageCnt = Qtnt;
+			else totPageCnt = Qtnt+1 ;
+		} 
+
+		// 2.startPageV 구하기
+		int startPageV = 1;
+		if ( pageNo > PAGE_VIEW ) {
+			if ( pageNo%PAGE_VIEW == 0 )
+				startPageV = pageNo - PAGE_VIEW + 1;
+			else 
+				startPageV = ((pageNo/PAGE_VIEW)*PAGE_VIEW) + 1;
 		}
 		
+		// 3.endPageV 구하기
+		int endPageV = startPageV+PAGE_VIEW - 1;
+		if (totPageCnt < endPageV) 
+				endPageV = totPageCnt;
 		
 		
-		System.out.println("startPage->"+startPage +" endPage->"+ endPage);
+		// 조회하고자 하는 페이지의 리스트 시작과 끝번호 구하기
+		int startList = (pageNo*LIST_VIEW)-LIST_VIEW+1;
+		int endList = pageNo*LIST_VIEW;
+		
+		System.out.println("pageNo->"+pageNo+ "totCnt->"+totPageCnt );
+		System.out.println("startPage->"+startList +" endPage->"+ endList);
 		System.out.println("startPageV->"+startPageV +" endPageV->"+ endPageV);
-		model.addAttribute("orderList", dxmDao.getOrderListDao(sUser.getU_id(), startPage, endPage));
-		model.addAttribute("nowPage", strPageNo );
-		model.addAttribute("startPage", startPageV );
-		model.addAttribute("endPage", endPageV );
-		model.addAttribute("totCnt", totCnt);
-		model.addAttribute("viewCnt", VIEW_CNT );
+		
+		model.addAttribute("orderList", dxmDao.getOrderListDao(sUser.getU_id(), startList, endList)); // 리스트정보
+		model.addAttribute("nowPage", pageNo ); // 현재 페이지
+		model.addAttribute("startPage", startPageV ); // 시작페이지
+		model.addAttribute("endPage", endPageV ); // 종료페이지
+		model.addAttribute("totCnt", totPageCnt); // 총페이지건수
+		model.addAttribute("viewCnt", PAGE_VIEW ); // 출력할 페이지 수
 		return "order_list";
 	}
 
@@ -452,7 +458,6 @@ public class Dxm1Controller {
 		
 		return "order_detail";
 	}
-	
 	
 	@RequestMapping("/rcpt_tp_choice")
 	public String rcpt_tp_choice( HttpServletRequest request, Model model) {
