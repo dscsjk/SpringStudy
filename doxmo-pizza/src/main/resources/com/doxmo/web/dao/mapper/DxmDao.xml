@@ -52,7 +52,7 @@
 
 	<select id="getOrderListDao" resultType="com.doxmo.web.dto.OrderList">
 		select crt_dt, rcpt_tp, order_no, order_prdt, tt_pay, store_nm, store_tel, order_st 
-		from (  select rownum as rid , crt_dt, rcpt_tp, order_no, order_prdt, tt_pay, store_nm, store_tel, order_st 
+		from (  select row_number() over(order by order_no desc) rid, crt_dt, rcpt_tp, order_no, order_prdt, tt_pay, store_nm, store_tel, order_st 
       			from v_order_list
       			where u_id = #{param1}
       			order by crt_dt desc )
